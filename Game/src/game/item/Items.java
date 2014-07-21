@@ -14,11 +14,13 @@ public class Items {
 	
 	public static ItemStick stick = new ItemStick();
 	
-	public static ItemCraftingTable craftTable = new ItemCraftingTable("craftingtable");
+	public static ItemWood log = new ItemWood();
+	public static ItemCraftingTable craftTable = new ItemCraftingTable();
 
 	public static void loadItems(){
 		registerItem(stick);
 		registerItem(craftTable);
+		registerItem(log);
 	}
 
 	public static void registerItem(Item item){

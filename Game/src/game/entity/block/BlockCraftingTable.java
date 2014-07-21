@@ -1,11 +1,13 @@
 package game.entity.block;
 
-import java.awt.image.BufferedImage;
-
 import game.World;
 import game.content.Images;
 import game.entity.MapObject;
 import game.entity.living.player.Player;
+import game.gui.GuiCrafting;
+
+import java.awt.image.BufferedImage;
+
 import base.tilemap.TileMap;
 
 public class BlockCraftingTable extends Block {
@@ -18,7 +20,7 @@ public class BlockCraftingTable extends Block {
 	
 	@Override
 	public void interact(Player p, MapObject mo) {
-//		getWorld().displayGui(new GuiCrafting(getWorld(), p));
+		getWorld().displayGui(new GuiCrafting(getWorld(), p));
 	}
 	
 	@Override

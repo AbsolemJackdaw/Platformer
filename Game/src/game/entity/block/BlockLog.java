@@ -34,7 +34,7 @@ public class BlockLog extends BlockBreakable{
 	
 	@Override
 	public ItemStack getDrop() {
-		return new ItemStack(Items.stick, new Random().nextInt(3)+1);
+		return new ItemStack(Items.log, 1);
 	}
 
 }

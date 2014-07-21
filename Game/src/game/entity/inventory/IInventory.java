@@ -13,5 +13,6 @@ public interface IInventory {
 	public void removeStack(int slot);
 	public boolean hasStackInSlot(int slot);
 	public IInventory getInventory();
+	public int getSlotForStack(ItemStack stack);
 
 }

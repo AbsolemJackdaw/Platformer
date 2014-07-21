@@ -147,9 +147,9 @@ public class Player extends EntityLiving implements IInventory{
 					if(getStackInSlot(0).getItem() instanceof ItemBlock){
 						ItemBlock ib = (ItemBlock)getStackInSlot(0).getItem();
 						ib.placeBlock(tileMap, getWorld(), this);
-//						getStackInSlot(0).stackSize--;
-//						if(getStackInSlot(0).stackSize == 0)
-//							setStackInSlot(0, null);
+						//						getStackInSlot(0).stackSize--;
+						//						if(getStackInSlot(0).stackSize == 0)
+						//							setStackInSlot(0, null);
 					}
 				}
 			}
@@ -305,6 +305,8 @@ public class Player extends EntityLiving implements IInventory{
 			inventory[slot] = stack;
 		else if (stack == null && inventory[slot] != null)
 			inventory[slot] = null;
+		else if(inventory[slot].getItem().equals(stack.getItem()))
+			inventory[slot].stackSize += stack.stackSize;
 	}
 
 	@Override
@@ -415,6 +417,9 @@ public class Player extends EntityLiving implements IInventory{
 				armorItems[slot] = stack;
 			else if (stack == null)
 				armorItems[slot] = null;
+			else if(armorItems[slot].getItem().equals(stack.getItem())){
+				armorItems[slot].stackSize += stack.stackSize;
+			}
 		}
 
 		@Override
@@ -432,5 +437,22 @@ public class Player extends EntityLiving implements IInventory{
 			return this;
 		}
 
+		@Override
+		public int getSlotForStack(ItemStack stack) {
+			return 0;
+		}
+
+	}
+
+	/**returns slot index for that item*/
+	@Override
+	public int getSlotForStack(ItemStack drop) {
+		for(int slot = 0; slot < getMaxSlots(); slot++){
+			if(getStackInSlot(slot) != null){
+				if(getStackInSlot(slot).getItem() == drop.getItem())
+					return slot;
+			}
+		}
+		return -1;
 	}
 }

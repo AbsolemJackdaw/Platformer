@@ -5,15 +5,15 @@ import game.content.Images;
 
 import java.awt.image.BufferedImage;
 
-public class ItemCraftingTable extends ItemBlock{
- 
-	public ItemCraftingTable() {
-		super(Loading.CRAFTINGTABLE);
+public class ItemWood extends ItemBlock{
+
+	public ItemWood() {
+		super(Loading.LOG);
 	}
 	
 	@Override
 	public BufferedImage getTexture() {
-		return Images.loadImage("/blocks/workbench.png");
+		return Images.loadImage("/blocks/log.png");
 	}
 
 }

@@ -36,7 +36,7 @@ public class Button {
 		g.drawImage(tileTexture, posX, posY, 16, 16, null);
 
 		if(icon != null)
-			g.drawImage(icon.getSubimage(0, 0, 32, 32), posX+1, posY, 16, 16, null);
+			g.drawImage(icon.getSubimage(0, 0, 32, 32), posX, posY, 16, 16, null);
 
 	}
 }
