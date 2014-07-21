@@ -147,9 +147,9 @@ public class Player extends EntityLiving implements IInventory{
 					if(getStackInSlot(0).getItem() instanceof ItemBlock){
 						ItemBlock ib = (ItemBlock)getStackInSlot(0).getItem();
 						ib.placeBlock(tileMap, getWorld(), this);
-						getStackInSlot(0).stackSize--;
-						if(getStackInSlot(0).stackSize == 0)
-							setStackInSlot(0, null);
+//						getStackInSlot(0).stackSize--;
+//						if(getStackInSlot(0).stackSize == 0)
+//							setStackInSlot(0, null);
 					}
 				}
 			}

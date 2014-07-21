@@ -61,10 +61,10 @@ public class Block extends MapObject{
 					if(b != this){
 						if(this.currCol == b.currCol){
 							if(this.currRow+1 == b.currRow){
-								if(this.yScreen+entitySizeY >= b.yScreen){
+								if(this.yScreen+32 >= b.yScreen && b.isStackable()){
 									falling = false;
 									dy = 0;
-									this.yScreen = b.yScreen-entitySizeY;
+									this.yScreen = b.yScreen-32;
 								}
 							}
 						}
@@ -76,5 +76,9 @@ public class Block extends MapObject{
 
 	public ItemStack getDrop(){
 		return null;
+	}
+	
+	public boolean isStackable(){
+		return true;
 	}
 }

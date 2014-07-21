@@ -12,7 +12,8 @@ public class BlockCraftingTable extends Block {
 
 	public BlockCraftingTable(TileMap tm, World world) {
 		super(tm, world, "craftingtable");
-		entitySizeY = 25;
+		entitySizeY = 24;
+		height = 32;
 	}
 	
 	@Override
@@ -27,6 +28,11 @@ public class BlockCraftingTable extends Block {
 	
 	@Override
 	public boolean hasAnimation() {
+		return false;
+	}
+	
+	@Override
+	public boolean isStackable() {
 		return false;
 	}
 
