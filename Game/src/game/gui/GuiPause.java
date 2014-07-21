@@ -6,8 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import base.main.GamePanel;
+import base.main.GameStateManager;
 import base.main.keyhandler.KeyHandler;
-
 import game.Loading;
 import game.World;
 import game.content.save.Save;
@@ -21,7 +21,7 @@ public class GuiPause extends Gui {
 	private Color clr = new Color(0xcfd9e7);
 	
 	private int currentChoice = 0;
-	private final String[] options = { "Resume", "Save", "Quit" };
+	private final String[] options = { "Resume", "Save", "Menu", "Quit" };
 	
 	public GuiPause(World world, Player p) {
 		super(world, p);
@@ -55,13 +55,18 @@ public class GuiPause extends Gui {
 		if (currentChoice == 0){
 			world.displayGui(null);
 		}
-		if (currentChoice == 1){
-			Save.writePlayerData(player);
-			Save.writeRandomParts();
-			Save.writeWorld((World)world.gsm.getGameState(world.gsm.getCurrentState()), Loading.index);
+		if (currentChoice == 1)
+			saveGame();
+		if(currentChoice == 2)
+		{
+			saveGame();
+			world.gsm.setState(world.gsm.MENUSTATE);
 		}
-		if (currentChoice == 2)
+		if (currentChoice == 3)
+		{
+			saveGame();
 			System.exit(0);
+		}
 	}
 	
 	@Override
@@ -80,6 +85,12 @@ public class GuiPause extends Gui {
 		}
 	}
 	
+	private void saveGame()
+	{
+		Save.writePlayerData(player);
+		Save.writeRandomParts();
+		Save.writeWorld((World)world.gsm.getGameState(world.gsm.getCurrentState()), Loading.index);
+	}
 	
 	@Override
 	public boolean pausesGame() {
