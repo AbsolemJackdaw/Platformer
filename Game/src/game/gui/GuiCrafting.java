@@ -21,7 +21,7 @@ public class GuiCrafting extends GuiContainer {
 
 		BufferedImage[] textures = new BufferedImage[15];
 		textures[0] = Items.stick.getTexture();
-		textures[1] = Items.log.getTexture();
+		textures[1] = Items.craftTable.getTexture();
 
 		for(int i = 0; i < rowsX(); i ++){
 			for(int j = 0; j < rowsY(); j++){
@@ -144,7 +144,8 @@ public class GuiCrafting extends GuiContainer {
 			if(i == 0){
 				is[0] = new ItemStack(Items.log, 1);
 			}else if(i == 1){
-				
+				is[0] = new ItemStack(Items.stick, 4);
+				is[1] = new ItemStack(Items.log, 1);
 			}
 			
 			return is;
