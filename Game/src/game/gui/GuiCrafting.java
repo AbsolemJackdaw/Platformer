@@ -57,6 +57,14 @@ public class GuiCrafting extends GuiContainer {
 				i.getItem().draw(g, x, y, i);
 			}
 		}
+		
+		int i = 0;
+		for(ItemStack stack : Crafting.getRecipe(slot_index)){
+			if(stack != null){
+				stack.getItem().draw(g, centerX + 51 + ((i%3)*getSlotSpacingX()), centerY - 45 + ((i/3)*getSlotSpacingY()), stack);
+				i++;
+			}
+		}
 
 		super.draw(g);
 	}
@@ -129,6 +137,18 @@ public class GuiCrafting extends GuiContainer {
 	/*=======================CRAFTING=============================*/
 	
 	public static class Crafting {
+		
+		public static ItemStack[] getRecipe(int i){
+			ItemStack[] is = new ItemStack[10];
+			
+			if(i == 0){
+				is[0] = new ItemStack(Items.log, 1);
+			}else if(i == 1){
+				
+			}
+			
+			return is;
+		}
 		
 		public static void craftSticks(Player player){
 			ItemStack input = new ItemStack(Items.log, 1);
