@@ -18,6 +18,8 @@ public class KeyHandler {
 	public static int U = 7;
 	public static int B = 8;
 	public static int ESCAPE = 9;
+	
+	public static int ONE = 10;
 
 	public static boolean anyKeyPress() {
 		for (int i = 0; i < NUM_KEYS; i++)
@@ -58,6 +60,10 @@ public class KeyHandler {
 
 		else if (i == KeyEvent.VK_B)
 			keyState[B] = b;
+		
+		else if (i == KeyEvent.VK_1){
+			keyState[ONE] = b;
+		}
 
 	}
 
