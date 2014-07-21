@@ -21,11 +21,11 @@ public class GuiPause extends Gui {
 	private Color color = new Color(250, 231, 217);
 	private Color clr = new Color(0xcfd9e7);
 	private float alpha = 1.0F;
-	
+
 	private boolean showMessageSaved = false;
 	private int currentChoice = 0;
 	private final String[] options = { "Resume", "Save", "Menu", "Quit" };
-	
+
 	public GuiPause(World world, Player p) {
 		super(world, p);
 
@@ -52,21 +52,21 @@ public class GuiPause extends Gui {
 				g.setColor(Color.RED);
 			g.drawString(options[i], (GamePanel.WIDTH / 2) - 15 + (i > 0 ? 10 : 0), 140 + (i * 15));
 		}
-		
+
 		if(showMessageSaved)
 		{	
 			//set the opacity
-		    g.setFont(font);
-		    g.setColor(new Color(1f, 1f, 1f, alpha));
-		    g.drawString("Successfully saved.", GamePanel.WIDTH / 2 - (GamePanel.WIDTH / 4), GamePanel.HEIGHT / 2);
-		    alpha -= 0.01f;
-		    
-		    //increase the opacity and repaint
-		    if (alpha <= 0.0F)
-		        alpha = 0.0F;
-		    
-		    if(alpha == 0.0F)
-		    	showMessageSaved = false;
+			g.setFont(font);
+			g.setColor(new Color(1f, 1f, 1f, alpha));
+			g.drawString("Successfully saved.", GamePanel.WIDTH / 2 - (GamePanel.WIDTH / 4), GamePanel.HEIGHT / 2);
+			alpha -= 0.01f;
+
+			//increase the opacity and repaint
+			if (alpha <= 0.0F)
+				alpha = 0.0F;
+
+			if(alpha == 0.0F)
+				showMessageSaved = false;
 		}
 	}
 
@@ -78,7 +78,7 @@ public class GuiPause extends Gui {
 		{
 			saveGame();
 			showMessageSaved = true;
-			alpha = 0.0F;
+			alpha = 1.0F;
 		}
 		else if(currentChoice == 2)
 		{
