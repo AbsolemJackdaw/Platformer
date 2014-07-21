@@ -57,15 +57,12 @@ public class GuiPause extends Gui {
 		
 		if(showMessageSaved)
 		{	
-			//set the opacity
-		    g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
-		    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-		    g.setFont(font);
-		    g.setColor(color);
+			g.setFont(font);
+			g.setColor(new Color(255, 255, 255, alpha));
 		    g.drawString("Successfully saved.", GamePanel.WIDTH / 2 - (GamePanel.WIDTH / 4), GamePanel.HEIGHT / 2);
 		    alpha += 0.005F;
 		    
-		    //increase the opacity and repaint
+		    //increase the opacity
 		    if (alpha >= 1.0F)
 		        alpha = 1.0F;
 		    
