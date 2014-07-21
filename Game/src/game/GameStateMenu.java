@@ -32,7 +32,7 @@ public class GameStateMenu extends GameState{
 		this.gsm = gsm;
 
 		bg = Images.instance.menuBackGround;
-		font = new Font("Century Gothic", Font.PLAIN, 32);
+		font = new Font("Constantia", Font.PLAIN, 36);
 
 		fontChoices = new Font("Arial", Font.PLAIN, 12);
 		

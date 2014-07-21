@@ -16,7 +16,7 @@ import base.main.keyhandler.KeyHandler;
 
 public class GuiPause extends Gui {
 
-	private Font font = new Font("Century Gothic", Font.PLAIN, 32);
+	private Font font = new Font("Constantia", Font.PLAIN, 36);
 	private Font fontChoices = new Font("Arial", Font.PLAIN, 12);
 	private Color color = new Color(250, 231, 217);
 	private Color clr = new Color(0xcfd9e7);
