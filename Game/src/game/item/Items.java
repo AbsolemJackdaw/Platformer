@@ -14,8 +14,8 @@ public class Items {
 	
 	public static ItemStick stick = new ItemStick();
 	
-	//uin must be the same as the placed block
-	public static ItemBlock craftTable = new ItemBlock("craftingtable");
+	//uin must be the same as the placed block.
+	public static ItemBlock craftTable = new ItemBlock("craftingtable", "/blocks/workbench.png");
 
 	public static void loadItems(){
 		registerItem(stick);

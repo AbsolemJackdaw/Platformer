@@ -18,7 +18,7 @@ public class Item {
 		UIN = uin;
 		texture = getTexture();
 	}
-
+	
 	public BufferedImage getTexture(){
 		return Images.instance.defaultAnim[0];
 	}
