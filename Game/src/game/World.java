@@ -11,7 +11,6 @@ import game.gui.GuiHud;
 import game.gui.GuiPause;
 import game.gui.GuiPlayerInventory;
 import game.item.ItemStack;
-import game.item.Items;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -59,7 +58,7 @@ public class World extends GameState{
 		listWithMapObjects = new ArrayList<MapObject>();
 
 		displayGui(new GuiHud(this, player));
-
+		
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package game;
 import game.content.save.DataTag;
 import game.content.save.Save;
 import game.entity.MapObject;
+import game.entity.block.BlockCraftingTable;
 import game.entity.block.BlockLog;
 
 import java.util.Random;
@@ -147,12 +148,15 @@ public class Loading {
 
 	
 	public static final String LOG = "log";
+	public static final String CRAFTINGTABLE = "craftingtable";
 
 	public static MapObject loadMapObjectFromString(String uin, TileMap tm, World w){
 		switch (uin) {
 		case LOG:
 			return new BlockLog(tm, w);
-
+		case CRAFTINGTABLE:
+			return new BlockCraftingTable(tm, w);
+			
 		default:
 			break;
 		}
