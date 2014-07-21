@@ -19,15 +19,15 @@ public class GuiPause extends Gui {
 	private Font fontChoices = new Font("Arial", Font.PLAIN, 12);
 	private Color color = new Color(250, 231, 217);
 	private Color clr = new Color(0xcfd9e7);
-	
+
 	private int currentChoice = 0;
 	private final String[] options = { "Resume", "Save", "Menu", "Quit" };
-	
+
 	public GuiPause(World world, Player p) {
 		super(world, p);
 
 	}
-	
+
 	@Override
 	public void draw(Graphics2D g) {
 		super.draw(g);
@@ -55,20 +55,20 @@ public class GuiPause extends Gui {
 		if (currentChoice == 0){
 			world.displayGui(null);
 		}
-		if (currentChoice == 1)
+		else if (currentChoice == 1)
 			saveGame();
-		if(currentChoice == 2)
+		else if(currentChoice == 2)
 		{
 			saveGame();
 			world.gsm.setState(world.gsm.MENUSTATE);
 		}
-		if (currentChoice == 3)
+		else if (currentChoice == 3)
 		{
 			saveGame();
 			System.exit(0);
 		}
 	}
-	
+
 	@Override
 	public void handleGuiKeyInput() {
 		if (KeyHandler.isPressed(KeyHandler.ENTER))
@@ -84,14 +84,14 @@ public class GuiPause extends Gui {
 				currentChoice = 0;
 		}
 	}
-	
+
 	private void saveGame()
 	{
 		Save.writePlayerData(player);
 		Save.writeRandomParts();
 		Save.writeWorld((World)world.gsm.getGameState(world.gsm.getCurrentState()), Loading.index);
 	}
-	
+
 	@Override
 	public boolean pausesGame() {
 		return true;
