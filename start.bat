@@ -1,1 +1,1 @@
-java -jar Brim.jar
+java -Djava.library.path=lib -jar Brim.jar

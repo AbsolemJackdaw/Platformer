@@ -5,12 +5,10 @@ import game.World;
 import game.content.save.Save;
 import game.entity.living.player.Player;
 
-import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.RenderingHints;
 
 import base.main.GamePanel;
 import base.main.GameStateManager;
@@ -22,7 +20,7 @@ public class GuiPause extends Gui {
 	private Font fontChoices = new Font("Arial", Font.PLAIN, 12);
 	private Color color = new Color(250, 231, 217);
 	private Color clr = new Color(0xcfd9e7);
-	private float alpha = 0.0F;
+	private float alpha = 1.0F;
 	
 	private boolean showMessageSaved = false;
 	private int currentChoice = 0;
@@ -57,6 +55,7 @@ public class GuiPause extends Gui {
 		
 		if(showMessageSaved)
 		{	
+<<<<<<< HEAD
 			g.setFont(font);
 			g.setColor(new Color(255, 255, 255, alpha));
 		    g.drawString("Successfully saved.", GamePanel.WIDTH / 2 - (GamePanel.WIDTH / 4), GamePanel.HEIGHT / 2);
@@ -65,8 +64,19 @@ public class GuiPause extends Gui {
 		    //increase the opacity
 		    if (alpha >= 1.0F)
 		        alpha = 1.0F;
+=======
+			//set the opacity
+		    g.setFont(font);
+		    g.setColor(new Color(1f, 1f, 1f, alpha));
+		    g.drawString("Successfully saved.", GamePanel.WIDTH / 2 - (GamePanel.WIDTH / 4), GamePanel.HEIGHT / 2);
+		    alpha -= 0.01f;
 		    
-		    if(alpha == 1.0F)
+		    //increase the opacity and repaint
+		    if (alpha <= 0.0F)
+		        alpha = 0.0F;
+>>>>>>> refs/heads/master
+		    
+		    if(alpha == 0.0F)
 		    	showMessageSaved = false;
 		}
 	}

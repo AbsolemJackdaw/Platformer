@@ -305,8 +305,11 @@ public class Player extends EntityLiving implements IInventory{
 			inventory[slot] = stack;
 		else if (stack == null && inventory[slot] != null)
 			inventory[slot] = null;
+<<<<<<< HEAD
 //		else if (inventory[slot].getItem().equals(stack.getItem()))
 //			inventory[slot].stackSize += stack.stackSize;
+=======
+>>>>>>> refs/heads/master
 	}
 
 	@Override
@@ -417,8 +420,11 @@ public class Player extends EntityLiving implements IInventory{
 				armorItems[slot] = stack;
 			else if (stack == null)
 				armorItems[slot] = null;
+<<<<<<< HEAD
 //			else if (armorItems[slot].getItem().equals(stack.getItem()))
 //				armorItems[slot].stackSize += stack.stackSize;
+=======
+>>>>>>> refs/heads/master
 		}
 
 		@Override
