@@ -10,7 +10,6 @@ import game.gui.Gui;
 import game.gui.GuiHud;
 import game.gui.GuiPause;
 import game.gui.GuiPlayerInventory;
-import game.item.ItemStack;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

@@ -118,6 +118,10 @@ public abstract class MapObject {
 		}
 	}
 
+	public String getUin(){
+		return UIN;
+	}
+	
 	public Animation getAnimation(){
 		return animation;
 	}
