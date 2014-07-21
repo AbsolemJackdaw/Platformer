@@ -13,6 +13,7 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 
 import base.main.GamePanel;
+import base.main.GameStateManager;
 import base.main.keyhandler.KeyHandler;
 
 public class GuiPause extends Gui {
@@ -85,7 +86,7 @@ public class GuiPause extends Gui {
 		else if(currentChoice == 2)
 		{
 			saveGame();
-			world.gsm.setState(world.gsm.MENUSTATE);
+			world.gsm.setState(GameStateManager.MENUSTATE);
 		}
 		else if (currentChoice == 3)
 		{
