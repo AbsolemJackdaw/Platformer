@@ -14,6 +14,8 @@ public class GuiPlayerInventory extends GuiContainer {
 
 	private BufferedImage img;
 	
+	//TODO add armor only slot switching compatibility
+	
 	public GuiPlayerInventory(World world, Player p) {
 		super(world, p);
 		
