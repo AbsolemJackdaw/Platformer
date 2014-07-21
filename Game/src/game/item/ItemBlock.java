@@ -21,11 +21,6 @@ public class ItemBlock extends Item{
 		MapObject mo = Loading.loadMapObjectFromString(getUIN(), map, world);
 		mo.setPosition(p.getScreenXpos(), p.getScreenYpos());
 		world.listWithMapObjects.add(mo);
-<<<<<<< HEAD
-		
-=======
-
->>>>>>> refs/heads/master
 	}
 
 }

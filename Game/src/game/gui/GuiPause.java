@@ -55,16 +55,6 @@ public class GuiPause extends Gui {
 		
 		if(showMessageSaved)
 		{	
-<<<<<<< HEAD
-			g.setFont(font);
-			g.setColor(new Color(255, 255, 255, alpha));
-		    g.drawString("Successfully saved.", GamePanel.WIDTH / 2 - (GamePanel.WIDTH / 4), GamePanel.HEIGHT / 2);
-		    alpha += 0.005F;
-		    
-		    //increase the opacity
-		    if (alpha >= 1.0F)
-		        alpha = 1.0F;
-=======
 			//set the opacity
 		    g.setFont(font);
 		    g.setColor(new Color(1f, 1f, 1f, alpha));
@@ -74,7 +64,6 @@ public class GuiPause extends Gui {
 		    //increase the opacity and repaint
 		    if (alpha <= 0.0F)
 		        alpha = 0.0F;
->>>>>>> refs/heads/master
 		    
 		    if(alpha == 0.0F)
 		    	showMessageSaved = false;
