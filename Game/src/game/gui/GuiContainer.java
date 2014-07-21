@@ -21,11 +21,13 @@ public class GuiContainer extends Gui implements Container{
 
 	protected int currentContainer = PLAYER;
 
-	/**0 x 1 y*/
+	/**Location the "cursor" currently is at, where 0 = x && 1 = y*/
 	protected int[] slotIndex = new int[2];
 
+	/**the little yellow square that indicates what slot is selected*/
 	public static final Rectangle slotSelected = new Rectangle(17, 17);
 
+	/**returns an integer => 0 && < getMaxSlots(). this is used to know what slot we have selected*/
 	public int slot_index;
 
 	public GuiContainer(IInventory blockInventory, Player p) {
