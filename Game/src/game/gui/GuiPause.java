@@ -1,17 +1,19 @@
 package game.gui;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-
-import base.main.GamePanel;
-import base.main.GameStateManager;
-import base.main.keyhandler.KeyHandler;
 import game.Loading;
 import game.World;
 import game.content.save.Save;
 import game.entity.living.player.Player;
+
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+
+import base.main.GamePanel;
+import base.main.keyhandler.KeyHandler;
 
 public class GuiPause extends Gui {
 
@@ -19,10 +21,12 @@ public class GuiPause extends Gui {
 	private Font fontChoices = new Font("Arial", Font.PLAIN, 12);
 	private Color color = new Color(250, 231, 217);
 	private Color clr = new Color(0xcfd9e7);
-
+	private float alpha = 0.0F;
+	
+	private boolean showMessageSaved = false;
 	private int currentChoice = 0;
 	private final String[] options = { "Resume", "Save", "Menu", "Quit" };
-
+	
 	public GuiPause(World world, Player p) {
 		super(world, p);
 
@@ -49,6 +53,24 @@ public class GuiPause extends Gui {
 				g.setColor(Color.RED);
 			g.drawString(options[i], (GamePanel.WIDTH / 2) - 15 + (i > 0 ? 10 : 0), 140 + (i * 15));
 		}
+		
+		if(showMessageSaved)
+		{	
+			//set the opacity
+		    g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+		    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+		    g.setFont(font);
+		    g.setColor(color);
+		    g.drawString("Successfully saved.", GamePanel.WIDTH / 2 - (GamePanel.WIDTH / 4), GamePanel.HEIGHT / 2);
+		    alpha += 0.05f;
+		    
+		    //increase the opacity and repaint
+		    if (alpha >= 1.0F)
+		        alpha = 1.0F;
+		    
+		    if(alpha == 1.0F)
+		    	showMessageSaved = false;
+		}
 	}
 
 	private void select(){
@@ -56,7 +78,10 @@ public class GuiPause extends Gui {
 			world.displayGui(null);
 		}
 		else if (currentChoice == 1)
+		{
 			saveGame();
+			showMessageSaved = true;
+		}
 		else if(currentChoice == 2)
 		{
 			saveGame();
