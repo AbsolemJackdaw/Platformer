@@ -10,11 +10,14 @@ import game.entity.Animation;
 import game.entity.MapObject;
 import game.entity.inventory.IInventory;
 import game.entity.living.EntityLiving;
+import game.item.ItemBlock;
 import game.item.ItemStack;
+import game.item.Items;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import base.main.keyhandler.KeyHandler;
 import base.tilemap.TileMap;
 
 public class Player extends EntityLiving implements IInventory{
@@ -58,6 +61,7 @@ public class Player extends EntityLiving implements IInventory{
 
 		setPosition(3*32, 3*32);
 
+		setStackInSlot(0, new ItemStack(Items.craftTable,1));
 	}
 
 	@Override
@@ -124,6 +128,31 @@ public class Player extends EntityLiving implements IInventory{
 			if (dy > maxFallSpeed)
 				dy = maxFallSpeed;
 
+		}
+	}
+
+	public void handleInput(){
+		setLeft(KeyHandler.keyState[KeyHandler.LEFT]);
+
+		setRight(KeyHandler.keyState[KeyHandler.RIGHT]);
+
+		setJumping(KeyHandler.keyState[KeyHandler.UP]);
+
+		if (KeyHandler.isPressed(KeyHandler.SPACE))
+			setAttacking();
+
+		if(KeyHandler.isPressed(KeyHandler.ONE)){
+			if(getStackInSlot(0) != null){
+				if(getStackInSlot(0).getItem() != null){
+					if(getStackInSlot(0).getItem() instanceof ItemBlock){
+						ItemBlock ib = (ItemBlock)getStackInSlot(0).getItem();
+						ib.placeBlock(tileMap, getWorld(), this);
+						getStackInSlot(0).stackSize--;
+						if(getStackInSlot(0).stackSize == 0)
+							setStackInSlot(0, null);
+					}
+				}
+			}
 		}
 	}
 
@@ -259,11 +288,11 @@ public class Player extends EntityLiving implements IInventory{
 	public boolean setStackInNextAvailableSlot(ItemStack item) {
 		for(int i = 0; i < inventory.length; i++)
 			if(getStackInSlot(i) == null){
-				addStack(i, item);
+				setStackInSlot(i, item);
 				return true;
 			}else{
 				if (inventory[i].getItem().equals(item.getItem())){
-					addStack(i, item);
+					setStackInSlot(i, item);
 					return true;
 				}
 			}
@@ -271,13 +300,13 @@ public class Player extends EntityLiving implements IInventory{
 	}
 
 	@Override
-	public void addStack(int slot, ItemStack stack) {
+	public void setStackInSlot(int slot, ItemStack stack) {
 		if(inventory[slot] == null)
 			inventory[slot] = stack;
 		else if (stack == null && inventory[slot] != null)
 			inventory[slot] = null;
-		else if (inventory[slot].getItem().equals(stack.getItem()))
-			inventory[slot].stackSize += stack.stackSize;
+//		else if (inventory[slot].getItem().equals(stack.getItem()))
+//			inventory[slot].stackSize += stack.stackSize;
 	}
 
 	@Override
@@ -309,7 +338,7 @@ public class Player extends EntityLiving implements IInventory{
 			}
 		}
 		data.writeList("items", list);
-		
+
 		DataList armor = new DataList();
 		for(int slot = 0; slot < invArmor.getMaxSlots(); slot++){
 			ItemStack stack = invArmor.getStackInSlot(slot);
@@ -330,14 +359,14 @@ public class Player extends EntityLiving implements IInventory{
 		for(int i = 0; i < list.data().size(); i++){
 			DataTag tag = list.readArray(i);
 			ItemStack stack = ItemStack.createFromSave(tag);
-			addStack(i, stack);
+			setStackInSlot(i, stack);
 		}
-		
+
 		DataList armor = data.readList("armorItems");
 		for(int i = 0; i < armor.data().size(); i++){
 			DataTag tag = armor.readArray(i);
 			ItemStack stack = ItemStack.createFromSave(tag);
-			invArmor.addStack(i, stack);
+			invArmor.setStackInSlot(i, stack);
 		}
 	}
 
@@ -371,11 +400,11 @@ public class Player extends EntityLiving implements IInventory{
 		public boolean setStackInNextAvailableSlot(ItemStack item) {
 			for(int i = 0; i < armorItems.length; i++)
 				if(getStackInSlot(i) == null){
-					addStack(i, item);
+					setStackInSlot(i, item);
 					return true;
 				}else{
 					if (armorItems[i].getItem().equals(item.getItem())){
-						addStack(i, item);
+						setStackInSlot(i, item);
 						return true;
 					}
 				}
@@ -383,13 +412,13 @@ public class Player extends EntityLiving implements IInventory{
 		}
 
 		@Override
-		public void addStack(int slot, ItemStack stack) {
+		public void setStackInSlot(int slot, ItemStack stack) {
 			if(armorItems[slot] == null)
 				armorItems[slot] = stack;
 			else if (stack == null)
 				armorItems[slot] = null;
-			else if (armorItems[slot].getItem().equals(stack.getItem()))
-				armorItems[slot].stackSize += stack.stackSize;
+//			else if (armorItems[slot].getItem().equals(stack.getItem()))
+//				armorItems[slot].stackSize += stack.stackSize;
 		}
 
 		@Override

@@ -9,7 +9,7 @@ public interface IInventory {
 	public ItemStack getStackInSlot(int slot);
 	public int getMaxSlots();
 	public boolean setStackInNextAvailableSlot(ItemStack item);
-	public void addStack(int slot, ItemStack stack);
+	public void setStackInSlot(int slot, ItemStack stack);
 	public void removeStack(int slot);
 	public boolean hasStackInSlot(int slot);
 	public IInventory getInventory();

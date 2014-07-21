@@ -81,11 +81,6 @@ public class World extends GameState{
 			guiDisplaying.draw(g);
 		}
 
-		//		if (isDisplayingGui)
-		//			if(guiDisplaying != null)
-		//				guiDisplaying.draw(g);
-		//			else
-		//				isDisplayingGui = false;
 	}
 
 	@Override
@@ -145,15 +140,8 @@ public class World extends GameState{
 			return;
 		}
 
-		player.setLeft(KeyHandler.keyState[KeyHandler.LEFT]);
-
-		player.setRight(KeyHandler.keyState[KeyHandler.RIGHT]);
-
-		player.setJumping(KeyHandler.keyState[KeyHandler.UP]);
-
-		if (KeyHandler.isPressed(KeyHandler.SPACE))
-			player.setAttacking();
-
+		player.handleInput();
+		
 		if (KeyHandler.isPressed(KeyHandler.B))
 			showBB = showBB ? false :true;
 

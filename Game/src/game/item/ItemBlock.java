@@ -13,10 +13,14 @@ public class ItemBlock extends Item{
 		super(b.getUin());
 	}
 
+	public ItemBlock(String s) {
+		super(s);
+	}
+	
 	public void placeBlock(TileMap map, World world, Player p){
 		MapObject mo = Loading.loadMapObjectFromString(getUIN(), map, world);
-		
 		mo.setPosition(p.getScreenXpos(), p.getScreenYpos());
+		world.listWithMapObjects.add(mo);
 		
 	}
 	

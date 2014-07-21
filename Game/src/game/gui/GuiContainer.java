@@ -126,13 +126,13 @@ public class GuiContainer extends Gui implements Container{
 					System.out.println(slot_index);
 					if(blockInventory.getStackInSlot(slot_index) != null)
 						if(playerInventory.setStackInNextAvailableSlot(blockInventory.getStackInSlot(slot_index)))
-							blockInventory.addStack(slot_index, null);
+							blockInventory.setStackInSlot(slot_index, null);
 				}else{
 					int slot = slotIndex[0]+ (slotIndex[1]*(rowsX()));
 					System.out.println(slot);
 					if(playerInventory.getStackInSlot(slot) != null)
 						if(blockInventory.setStackInNextAvailableSlot(playerInventory.getStackInSlot(slot)))
-							playerInventory.addStack(slot, null);
+							playerInventory.setStackInSlot(slot, null);
 				}
 	}
 

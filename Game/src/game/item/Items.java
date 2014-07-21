@@ -13,9 +13,13 @@ public class Items {
 	}
 	
 	public static ItemStick stick = new ItemStick();
+	
+	//uin must be the same as the placed block
+	public static ItemBlock craftTable = new ItemBlock("craftingtable");
 
 	public static void loadItems(){
 		registerItem(stick);
+		registerItem(craftTable);
 	}
 
 	public static void registerItem(Item item){
