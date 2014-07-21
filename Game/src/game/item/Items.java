@@ -14,7 +14,7 @@ public class Items {
 	
 	public static ItemStick stick = new ItemStick();
 	
-	public static ItemBlock craftTable = new ItemBlock("craftingtable");
+	public static ItemCraftingTable craftTable = new ItemCraftingTable("craftingtable");
 
 	public static void loadItems(){
 		registerItem(stick);

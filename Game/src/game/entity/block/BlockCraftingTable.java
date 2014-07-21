@@ -12,6 +12,7 @@ public class BlockCraftingTable extends Block {
 
 	public BlockCraftingTable(TileMap tm, World world) {
 		super(tm, world, "craftingtable");
+		entitySizeY = 25;
 	}
 	
 	@Override

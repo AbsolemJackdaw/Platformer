@@ -8,11 +8,6 @@ import base.tilemap.TileMap;
 
 public class ItemBlock extends Item{
 
-	public ItemBlock(String s, String texturePath) {
-		super(s);
-
-	}
-
 	public ItemBlock(String s) {
 		super(s);
 	}

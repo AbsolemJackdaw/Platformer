@@ -61,10 +61,10 @@ public class Block extends MapObject{
 					if(b != this){
 						if(this.currCol == b.currCol)
 							if(this.currRow+1 == b.currRow){
-								if(this.yScreen+32 >= b.yScreen){
+								if(this.yScreen+entitySizeY >= b.yScreen){
 									falling = false;
 									dy = 0;
-									this.yScreen = b.yScreen-32;
+									this.yScreen = b.yScreen-entitySizeY;
 								}
 							}
 					}
