@@ -62,7 +62,7 @@ public class GuiPlayerInventory extends GuiContainer {
 			int i = 0;
 			for(ItemStack stack : Crafting.getRecipe(slot_index)){
 				if(stack != null){
-					stack.getItem().draw(g, centerX + 51 + ((i%3)*getSlotSpacingX()), centerY - 45 + ((i/3)*getSlotSpacingY()), stack);
+					stack.getItem().draw(g, centerX + 75 + ((i%3)*getSlotSpacingX()), centerY - 27 + ((i/3)*getSlotSpacingY()), stack);
 					i++;
 				}
 			}
