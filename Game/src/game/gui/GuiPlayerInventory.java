@@ -3,9 +3,9 @@ package game.gui;
 import game.World;
 import game.content.Images;
 import game.entity.living.player.Player;
-import game.gui.GuiCrafting.Crafting;
 import game.item.ItemStack;
 import game.item.Items;
+import game.item.crafting.Crafting;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -160,10 +160,10 @@ public class GuiPlayerInventory extends GuiContainer {
 		System.out.println("click click : " + id);
 
 		if(id == 0){
-			Crafting.craftSticks(player);
+			Crafting.craft(player, Crafting.Sticks);
 		}
 		if(id == 1){
-			Crafting.craftCraftTable(player);
+			Crafting.craft(player, Crafting.CraftTable);
 		}
 	}
 }
