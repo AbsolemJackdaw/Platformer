@@ -83,7 +83,7 @@ public class TileMap {
 				final int rc = map[row][col];
 				final int r = rc / numTilesAcross;
 				final int c = rc % numTilesAcross;
-
+//				System.out.println(r + " " + c + " " + numTilesAcross + " " + rc/numTilesAcross);
 				g.drawImage(tiles[r][c].getImage(), (int) x + (col * tileSize),
 						(int) y + (row * tileSize), null);
 			}

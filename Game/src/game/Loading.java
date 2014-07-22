@@ -22,7 +22,7 @@ public class Loading {
 
 	public static String newMap(){
 
-		int i = new Random().nextInt(2);
+		int i = new Random().nextInt(3);
 
 		switch (i) {
 		case 0:
@@ -31,6 +31,8 @@ public class Loading {
 		case 1 :
 			return "/maps/cave_rand_2.map";
 
+		case 2 : 
+			return "/maps/cave_rand_3.map";
 		}
 
 		return "/maps/cave_rand.map";
@@ -137,10 +139,10 @@ public class Loading {
 
 	private static void generateRandomOre(World world, String block, int loops){
 		TileMap tm = world.tileMap;
-		
+
 		for(int i = 0; i < loops; i++){
 			BlockBreakable b = (BlockBreakable) Blocks.loadMapObjectFromString(block, tm, world);
-			
+
 			int x = new Random().nextInt(tm.getXRows());
 			int y = new Random().nextInt(tm.getYRows());
 

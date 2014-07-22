@@ -117,7 +117,6 @@ public class GuiContainer extends Gui implements Container{
 				currentContainer = PLAYER;
 				slotSelected.y = getFirstSlotLocationY();
 				slotSelected.x = getFirstSlotLocationX();
-				slotIndex[1] = 0;
 				slotIndex[1] = slotIndex[0] = 0;
 
 			}

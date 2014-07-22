@@ -4,6 +4,7 @@ import game.World;
 import game.entity.living.player.Player;
 
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 import base.main.GamePanel;
 import base.main.keyhandler.KeyHandler;
@@ -15,6 +16,8 @@ public class Gui {
 
 	protected final Player player;
 	protected final World world;
+
+	protected ArrayList<Button> buttonList = new ArrayList<Button>();
 
 	public Gui(World world, Player p) {
 		player = p;

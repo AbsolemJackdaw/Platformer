@@ -266,7 +266,7 @@ public class Player extends EntityLiving implements IInventory{
 	@Override
 	public boolean hasStack(ItemStack stack) {
 		for(int i = 0; i < inventory.length; i++)
-			if(getStackInSlot(i) != null)
+			if(getStackInSlot(i) != null && getStackInSlot(i).getItem().equals(stack.getItem()))
 				return true;
 
 		return false;
