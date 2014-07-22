@@ -22,20 +22,10 @@ public class Loading {
 
 	public static String newMap(){
 
-		int i = new Random().nextInt(3);
-
-		switch (i) {
-		case 0:
-			return "/maps/cave_rand.map";
-
-		case 1 :
-			return "/maps/cave_rand_2.map";
-
-		case 2 : 
-			return "/maps/cave_rand_3.map";
-		}
-
-		return "/maps/cave_rand.map";
+		int i = new Random().nextInt(5)+1;
+		String s = "/maps/cave_rand_" + i + ".map";
+		System.out.println(s);
+		return s;
 	}
 
 	public static void gotoNextLevel(GameStateManager gsm){
@@ -59,6 +49,8 @@ public class Loading {
 			maps++;
 			generateRandomTree(nw);
 			generateRandomOre(nw, Blocks.IRON, 3);
+			generateRandomOre(nw, Blocks.ROCK, 10);
+
 		}else{
 			nw.readFromSave(Save.getWorldData(index));
 		}

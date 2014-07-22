@@ -33,7 +33,7 @@ public class World extends GameState{
 
 	protected ArrayList<Background> backGrounds;
 
-	private String worldPath = "/maps/cave_rand.map";
+	private String worldPath = "/maps/cave_rand_1.map";
 
 	public ArrayList<MapObject> listWithMapObjects ;
 

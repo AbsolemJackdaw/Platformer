@@ -14,7 +14,8 @@ public class Items {
 	
 	public static ItemStick stick = new ItemStick();
 	public static ItemIron iron = new ItemIron();
-	
+	public static ItemStone rock= new ItemStone();
+
 	public static ItemWood log = new ItemWood();
 	public static ItemCraftingTable craftTable = new ItemCraftingTable();
 	
@@ -23,6 +24,7 @@ public class Items {
 		registerItem(craftTable);
 		registerItem(log);
 		registerItem(iron);
+		registerItem(rock);
 	}
 
 	public static void registerItem(Item item){

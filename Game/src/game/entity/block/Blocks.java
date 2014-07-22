@@ -9,6 +9,7 @@ public class Blocks {
 	public static final String LOG = "log";
 	public static final String CRAFTINGTABLE = "craftingtable";
 	public static final String IRON = "ironOre";
+	public static final String ROCK = "rock";
 
 	public static MapObject loadMapObjectFromString(String uin, TileMap tm, World w){
 		switch (uin) {
@@ -18,7 +19,9 @@ public class Blocks {
 			return new BlockCraftingTable(tm, w);
 		case IRON:
 			return new BlockIron(tm, w);
-
+		case ROCK:
+			return new BlockRock(tm, w);
+			
 		default:
 			break;
 		}

@@ -121,9 +121,9 @@ public class TileMap {
 
 	/**x and y are the rows of the map. returns either 0 or 1, for solid or ghost blocks*/
 	public int getType(int y, int x) {
-		final int rc = map[y][x];
-		final int r = rc / numTilesAcross;
-		final int c = rc % numTilesAcross;
+		int rc = map[y][x];
+		int r = rc / numTilesAcross;
+		int c = rc % numTilesAcross;
 		return tiles[r][c].getType();
 	}
 
