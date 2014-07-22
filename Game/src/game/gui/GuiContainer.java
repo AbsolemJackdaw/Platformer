@@ -82,20 +82,22 @@ public class GuiContainer extends Gui implements Container{
 	public void handleGuiKeyInput() {
 		super.handleGuiKeyInput();
 
-		if(KeyHandler.isPressed(KeyHandler.LEFT))
+		if(KeyHandler.isPressed(KeyHandler.LEFT)){
 			if(slotIndex[0] > 0){
 				slotSelected.x -=getSlotSpacingX();
 				slotIndex[0]--;
 			}
+		}
 
-		if(KeyHandler.isPressed(KeyHandler.RIGHT))
+		else if(KeyHandler.isPressed(KeyHandler.RIGHT)){
 			if(slotIndex[0] < (rowsX()-1)){
 				slotSelected.x +=getSlotSpacingX();
 				slotIndex[0]++;
 			}
+		}
 
 
-		if(KeyHandler.isPressed(KeyHandler.UP))
+		else if(KeyHandler.isPressed(KeyHandler.UP)){
 			if(slotIndex[1] > 0){
 				slotSelected.y -=getSlotSpacingY();
 				slotIndex[1]--;
@@ -105,8 +107,9 @@ public class GuiContainer extends Gui implements Container{
 				slotSelected.x = getFirstSlotLocationX();
 				slotIndex[1] = slotIndex[0] = 0;
 			}
+		}
 
-		if(KeyHandler.isPressed(KeyHandler.DOWN))
+		else if(KeyHandler.isPressed(KeyHandler.DOWN))
 			if(slotIndex[1] < (rowsY()-1)){
 				slotSelected.y +=getSlotSpacingY();
 				slotIndex[1]++;

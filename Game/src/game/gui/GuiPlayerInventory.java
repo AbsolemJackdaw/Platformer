@@ -84,4 +84,9 @@ public class GuiPlayerInventory extends GuiContainer {
 	public int rowsY() {
 		return isContainerInventory() ? 1 : 2;
 	}
+	
+	@Override
+	public void handleGuiKeyInput() {
+		super.handleGuiKeyInput();
+	}
 }

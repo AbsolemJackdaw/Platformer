@@ -5,6 +5,7 @@ import game.content.save.DataList;
 import game.content.save.DataTag;
 import game.content.save.Save;
 import game.entity.MapObject;
+import game.entity.block.Blocks;
 import game.entity.living.player.Player;
 import game.gui.Gui;
 import game.gui.GuiHud;
@@ -172,7 +173,7 @@ public class World extends GameState{
 		for(int i = 0; i < list.data().size(); i ++){
 			DataTag dt = list.readArray(i);
 			String uin = dt.readString("UIN");
-			MapObject mo = Loading.loadMapObjectFromString(uin, tileMap, this);
+			MapObject mo = Blocks.loadMapObjectFromString(uin, tileMap, this);
 			mo.readFromSave(dt);
 			listWithMapObjects.add(mo);
 		}

@@ -1,14 +1,14 @@
 package game.item;
 
-import game.Loading;
 import game.content.Images;
+import game.entity.block.Blocks;
 
 import java.awt.image.BufferedImage;
 
 public class ItemWood extends ItemBlock{
 
 	public ItemWood() {
-		super(Loading.LOG);
+		super(Blocks.LOG);
 	}
 	
 	@Override

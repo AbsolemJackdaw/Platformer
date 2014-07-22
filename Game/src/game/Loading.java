@@ -2,9 +2,9 @@ package game;
 
 import game.content.save.DataTag;
 import game.content.save.Save;
-import game.entity.MapObject;
-import game.entity.block.BlockCraftingTable;
+import game.entity.block.BlockBreakable;
 import game.entity.block.BlockLog;
+import game.entity.block.Blocks;
 
 import java.util.Random;
 
@@ -56,12 +56,13 @@ public class Loading {
 			nw.reloadMap(s);
 			maps++;
 			generateRandomTree(nw);
+			generateRandomOre(nw, Blocks.IRON, 3);
 		}else{
 			nw.readFromSave(Save.getWorldData(index));
 		}
-		
+
 		Save.writeRandomParts();
-		
+
 		for(int i = 0; i < nw.tileMap.getXRows(); i++)
 			for(int j = 0; j < nw.tileMap.getYRows(); j++){
 				if(nw.tileMap.getBlockID(i, j) == 7)
@@ -71,14 +72,14 @@ public class Loading {
 	}
 
 	public static void gotoPreviousLevel(GameStateManager gsm){
-		
+
 		World cw = (World)gsm.getGameState(gsm.getCurrentState());
-		
+
 		if(index == 0){
 			cw.getPlayer().setVector(4, 0);
 			return;
 		}
-		
+
 		//save world we are currently in
 		Save.writeWorld(cw, index);
 		Save.writePlayerData(cw.getPlayer());
@@ -101,7 +102,7 @@ public class Loading {
 			}
 		Save.writeRandomParts();
 	}
-	
+
 	public static void startAtLastSavedLevel(GameStateManager gsm){
 		World nw = (World)gsm.getGameState(gsm.getCurrentState());
 		try {
@@ -132,34 +133,37 @@ public class Loading {
 					}
 			}
 		}
+	}
+
+	private static void generateRandomOre(World world, String block, int loops){
+		TileMap tm = world.tileMap;
+		
+		for(int i = 0; i < loops; i++){
+			BlockBreakable b = (BlockBreakable) Blocks.loadMapObjectFromString(block, tm, world);
+			
+			int x = new Random().nextInt(tm.getXRows());
+			int y = new Random().nextInt(tm.getYRows());
+
+			if(y+1 < tm.getYRows())
+				if(world.tileMap.getBlockID(x, y) == 0){
+					if(world.tileMap.getBlockID(x, y+1) > 0){
+						b.setPosition(x*32 + 16, y*32 + 16);
+						world.listWithMapObjects.add(b);
+					}
+				}
+		}
 
 	}
-	
-	
+
+
 	public static void writeRandomParts(DataTag tag){
 		tag.writeInt("worldIndex", Loading.index);
 		tag.writeInt("mapNumber", Loading.maps);
 	}
-	
+
 	public static void readRandomParts(DataTag tag){
 		index = tag.readInt("worldIndex");
 		maps = tag.readInt("mapNumber");
 	}
 
-	
-	public static final String LOG = "log";
-	public static final String CRAFTINGTABLE = "craftingtable";
-
-	public static MapObject loadMapObjectFromString(String uin, TileMap tm, World w){
-		switch (uin) {
-		case LOG:
-			return new BlockLog(tm, w);
-		case CRAFTINGTABLE:
-			return new BlockCraftingTable(tm, w);
-			
-		default:
-			break;
-		}
-		return null;
-	}
 }

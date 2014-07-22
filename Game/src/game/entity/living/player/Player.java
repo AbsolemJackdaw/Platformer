@@ -12,7 +12,6 @@ import game.entity.inventory.IInventory;
 import game.entity.living.EntityLiving;
 import game.item.ItemBlock;
 import game.item.ItemStack;
-import game.item.Items;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -61,7 +60,6 @@ public class Player extends EntityLiving implements IInventory{
 
 		setPosition(3*32, 3*32);
 
-		setStackInSlot(0, new ItemStack(Items.craftTable,1));
 	}
 
 	@Override
@@ -147,9 +145,9 @@ public class Player extends EntityLiving implements IInventory{
 					if(getStackInSlot(0).getItem() instanceof ItemBlock){
 						ItemBlock ib = (ItemBlock)getStackInSlot(0).getItem();
 						ib.placeBlock(tileMap, getWorld(), this);
-						//						getStackInSlot(0).stackSize--;
-						//						if(getStackInSlot(0).stackSize == 0)
-						//							setStackInSlot(0, null);
+						getStackInSlot(0).stackSize--;
+						if(getStackInSlot(0).stackSize == 0)
+							setStackInSlot(0, null);
 					}
 				}
 			}
