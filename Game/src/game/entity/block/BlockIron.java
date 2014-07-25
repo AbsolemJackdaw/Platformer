@@ -2,8 +2,6 @@ package game.entity.block;
 
 import game.World;
 import game.content.Images;
-import game.entity.MapObject;
-import game.entity.living.player.Player;
 import game.item.ItemStack;
 import game.item.Items;
 import game.item.tool.ItemTool;
@@ -32,13 +30,7 @@ public class BlockIron extends BlockBreakable {
 	
 	@Override
 	public int getHealth() {
-		return 10;
-	}
-	
-	@Override
-	public void interact(Player p, MapObject mo) {
-		super.interact(p, mo);
-		System.out.println("Should have a pickaxe to mine !");
+		return 50;
 	}
 	
 	@Override
