@@ -36,6 +36,11 @@ public class Player extends EntityLiving implements IInventory{
 
 	private ItemStack[] inventory = new ItemStack[10];
 	private ItemStack[] armorItems = new ItemStack[4];
+	//ARMOR INFO
+	//0 helm
+	//1 chest
+	//2 legs 
+	//3 weapon
 
 	public ArmorInventory invArmor = new ArmorInventory();
 
@@ -129,29 +134,33 @@ public class Player extends EntityLiving implements IInventory{
 		}
 	}
 
+	private int[] keys = new int[]{KeyHandler.ONE, KeyHandler.TWO, KeyHandler.THREE,
+			KeyHandler.FOUR, KeyHandler.FIVE, KeyHandler.SIX,KeyHandler.SEVEN, KeyHandler.EIGHT, KeyHandler.NINE};
+
 	public void handleInput(){
 		setLeft(KeyHandler.keyState[KeyHandler.LEFT]);
 
 		setRight(KeyHandler.keyState[KeyHandler.RIGHT]);
 
-		setJumping(KeyHandler.keyState[KeyHandler.UP]);
+		setJumping(KeyHandler.keyState[KeyHandler.SPACE]);
 
-		if (KeyHandler.isPressed(KeyHandler.SPACE))
+		if (KeyHandler.isPressed(KeyHandler.CTRL))
 			setAttacking();
-
-		if(KeyHandler.isPressed(KeyHandler.ONE)){
-			if(getStackInSlot(0) != null){
-				if(getStackInSlot(0).getItem() != null){
-					if(getStackInSlot(0).getItem() instanceof ItemBlock){
-						ItemBlock ib = (ItemBlock)getStackInSlot(0).getItem();
-						ib.placeBlock(tileMap, getWorld(), this);
-						getStackInSlot(0).stackSize--;
-						if(getStackInSlot(0).stackSize == 0)
-							setStackInSlot(0, null);
+		
+		for(int key : keys)
+			if(KeyHandler.isPressed(key)){
+				if(getStackInSlot(key-10) != null){
+					if(getStackInSlot(key-10).getItem() != null){
+						if(getStackInSlot(key-10).getItem() instanceof ItemBlock){
+							ItemBlock ib = (ItemBlock)getStackInSlot(key-10).getItem();
+							ib.placeBlock(tileMap, getWorld(), this);
+							getStackInSlot(key-10).stackSize--;
+							if(getStackInSlot(key-10).stackSize == 0)
+								setStackInSlot(key-10, null);
+						}
 					}
 				}
 			}
-		}
 	}
 
 	@Override
@@ -370,6 +379,10 @@ public class Player extends EntityLiving implements IInventory{
 
 	public class ArmorInventory implements IInventory{
 
+		public ItemStack getWeapon(){
+			return armorItems[3];
+		}
+		
 		@Override
 		public ItemStack[] getItems() {
 			return armorItems;

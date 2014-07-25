@@ -1,5 +1,9 @@
 package game.item;
 
+import game.content.Images;
+import game.entity.block.Blocks;
+import game.item.tool.ItemTool;
+
 import java.util.HashMap;
 
 public class Items {
@@ -12,12 +16,14 @@ public class Items {
 		return null;
 	}
 	
-	public static ItemStick stick = new ItemStick();
-	public static ItemIron iron = new ItemIron();
-	public static ItemStone rock= new ItemStone();
+	public static Item stick = new Item("stick").setTexture(Images.loadImage("/items/stick.png"));
+	public static Item iron = new Item("iron").setTexture(Images.loadImage("/items/iron.png"));
+	public static Item rock= new Item("stone").setTexture(Images.loadImage("/items/stone.png"));
 
-	public static ItemWood log = new ItemWood();
+	public static ItemBlock log = (ItemBlock) new ItemBlock(Blocks.LOG).setTexture(Images.loadImage("/blocks/log.png"));
 	public static ItemCraftingTable craftTable = new ItemCraftingTable();
+	
+	public static ItemTool pickaxe = new ItemTool("pickaxe").setAttackDamage(2).setEffectiveness(ItemTool.PICKAXE).setEffectiveDamage(5);
 	
 	public static void loadItems(){
 		registerItem(stick);

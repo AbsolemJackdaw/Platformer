@@ -1,6 +1,5 @@
 package game.item;
 
-import game.content.Images;
 import game.content.save.DataTag;
 
 import java.awt.Color;
@@ -12,15 +11,19 @@ public class Item {
 
 	private final String UIN;
 
-	private final BufferedImage texture;
+	private BufferedImage texture;
 
 	public Item(String uin){
 		UIN = uin;
-		texture = getTexture();
+	}
+	
+	public Item setTexture(BufferedImage img){
+		texture = img;
+		return this;
 	}
 	
 	public BufferedImage getTexture(){
-		return Images.instance.defaultAnim[0];
+		return texture;
 	}
 
 	Font font = new Font("Century Gothic", Font.PLAIN, 10);

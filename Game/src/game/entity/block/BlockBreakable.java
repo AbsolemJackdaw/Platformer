@@ -4,6 +4,7 @@ import game.World;
 import game.content.save.DataTag;
 import game.entity.MapObject;
 import game.entity.living.player.Player;
+import game.item.tool.ItemTool;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -61,7 +62,12 @@ public class BlockBreakable extends Block{
 	public void interact(Player p, MapObject mo) {
 
 		jiggle = true;
-		health -= world.getPlayer().getAttackDamage();
+
+		int wepDmg = 0;
+		if(world.getPlayer().invArmor.getWeapon() != null)
+			wepDmg = ((ItemTool)world.getPlayer().invArmor.getWeapon().getItem()).getEffectiveDamage();
+
+		health -= world.getPlayer().getAttackDamage() + wepDmg;
 		if(health <= 0)
 			mine(p);
 
@@ -79,14 +85,14 @@ public class BlockBreakable extends Block{
 			health = 3;
 		}
 	}
-	
+
 	@Override
 	public void writeToSave(DataTag data) {
 		super.writeToSave(data);
 		data.writeInt("punchHealth", health);
-		
+
 	}
-	
+
 	@Override
 	public void readFromSave(DataTag data) {
 		super.readFromSave(data);

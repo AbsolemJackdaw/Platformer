@@ -63,30 +63,36 @@ public class XboxController {
 
 		LEFT = controller.getPovX() == -1f;
 		RIGHT = controller.getPovX() == 1f;
-		UP= controller.getPovY() == -1f;
+		UP = controller.getPovY() == -1f;
 		DOWN = controller.getPovY() == 1f;
 
 		KeyHandler.keySet(KeyEvent.VK_LEFT, LEFT);
 		KeyHandler.keySet(KeyEvent.VK_RIGHT, RIGHT);
-		KeyHandler.keySet(KeyEvent.VK_UP, UP);
+		KeyHandler.keySet(KeyEvent.VK_SPACE, UP);
 		KeyHandler.keySet(KeyEvent.VK_DOWN, DOWN);
 
 		if(controller.isButtonPressed(X)){
-			KeyHandler.keySet(KeyEvent.VK_SPACE, true);
+			KeyHandler.keySet(KeyEvent.VK_CONTROL, true);
 		}else{
-			KeyHandler.keySet(KeyEvent.VK_SPACE, false);
+			KeyHandler.keySet(KeyEvent.VK_CONTROL, false);
 		}
 
 		if(controller.isButtonPressed(A)){
-			KeyHandler.keySet(KeyEvent.VK_ENTER, true);
+			KeyHandler.keySet(KeyEvent.VK_SPACE, true);
 		}else{
-			KeyHandler.keySet(KeyEvent.VK_ENTER, false);
+			KeyHandler.keySet(KeyEvent.VK_SPACE, false);
 		}
 
 		if(controller.isButtonPressed(START)){
 			KeyHandler.keySet(KeyEvent.VK_ESCAPE, true);
 		}else{
 			KeyHandler.keySet(KeyEvent.VK_ESCAPE, false);
+		}
+
+		if(controller.isButtonPressed(BACK)){
+			KeyHandler.keySet(KeyEvent.VK_U, true);
+		}else{
+			KeyHandler.keySet(KeyEvent.VK_U, false);
 		}
 
 	}

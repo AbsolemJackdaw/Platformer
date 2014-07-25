@@ -3,7 +3,7 @@ package base.main.keyhandler;
 import java.awt.event.KeyEvent;
 
 public class KeyHandler {
-	public static final int NUM_KEYS = 16;
+	public static final int NUM_KEYS = 256;
 
 	public static boolean keyState[] = new boolean[NUM_KEYS];
 	public static boolean prevKeyState[] = new boolean[NUM_KEYS];
@@ -14,12 +14,20 @@ public class KeyHandler {
 	public static int SPACE = 3;
 	public static int ENTER = 4;
 	public static int DOWN = 5;
-	public static int G = 6;
+	public static int CTRL = 6;
 	public static int U = 7;
 	public static int B = 8;
 	public static int ESCAPE = 9;
 	
 	public static int ONE = 10;
+	public static int TWO = 11;
+	public static int THREE = 12;
+	public static int FOUR = 13;
+	public static int FIVE = 14;
+	public static int SIX = 15;
+	public static int SEVEN = 16;
+	public static int EIGHT = 17;
+	public static int NINE = 18;
 
 	public static boolean anyKeyPress() {
 		for (int i = 0; i < NUM_KEYS; i++)
@@ -36,7 +44,8 @@ public class KeyHandler {
 		return (keyState[SPACE] && !prevKeyState[SPACE]) || (keyState[ENTER] && !prevKeyState[ENTER]);
 	}
 
-	public static void keySet(int i, boolean b) {
+	public static void keySet(int i, boolean b){
+		
 		if (i == KeyEvent.VK_UP)
 			keyState[UP] = b;
 		else if (i == KeyEvent.VK_LEFT)
@@ -52,8 +61,8 @@ public class KeyHandler {
 		else if (i == KeyEvent.VK_ESCAPE)
 			keyState[ESCAPE] = b;
 
-		else if (i == KeyEvent.VK_G)
-			keyState[G] = b;
+		else if (i == KeyEvent.VK_CONTROL)
+			keyState[CTRL] = b;
 
 		else if (i == KeyEvent.VK_U)
 			keyState[U] = b;
@@ -64,7 +73,30 @@ public class KeyHandler {
 		else if (i == KeyEvent.VK_1){
 			keyState[ONE] = b;
 		}
-
+		else if (i == KeyEvent.VK_2){
+			keyState[TWO] = b;
+		}
+		else if (i == KeyEvent.VK_3){
+			keyState[THREE] = b;
+		}
+		else if (i == KeyEvent.VK_4){
+			keyState[FOUR] = b;
+		}
+		else if (i == KeyEvent.VK_5){
+			keyState[FIVE] = b;
+		}
+		else if (i == KeyEvent.VK_6){
+			keyState[SIX] = b;
+		}
+		else if (i == KeyEvent.VK_7){
+			keyState[SEVEN] = b;
+		}
+		else if (i == KeyEvent.VK_8){
+			keyState[EIGHT] = b;
+		}
+		else if (i == KeyEvent.VK_9){
+			keyState[NINE] = b;
+		}
 	}
 
 	public static void update() {
