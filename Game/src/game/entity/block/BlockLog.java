@@ -4,6 +4,7 @@ import game.World;
 import game.content.Images;
 import game.item.ItemStack;
 import game.item.Items;
+import game.item.tool.ItemTool;
 
 import java.awt.image.BufferedImage;
 
@@ -12,7 +13,7 @@ import base.tilemap.TileMap;
 public class BlockLog extends BlockBreakable{
 
 	public BlockLog(TileMap tm, World world) {
-		super(tm, world, Blocks.LOG);
+		super(tm, world, Blocks.LOG, ItemTool.AXE);
 	}
 	
 	@Override

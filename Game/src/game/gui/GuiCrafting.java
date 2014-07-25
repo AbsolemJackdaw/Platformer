@@ -20,6 +20,7 @@ public class GuiCrafting extends GuiContainer {
 		BufferedImage[] textures = new BufferedImage[15];
 		textures[0] = Items.stick.getTexture();
 		textures[1] = Items.craftTable.getTexture();
+		textures[2] = Items.pickaxe.getTexture();
 
 		for(int i = 0; i < rowsX(); i ++){
 			for(int j = 0; j < rowsY(); j++){
@@ -32,9 +33,6 @@ public class GuiCrafting extends GuiContainer {
 		System.out.println("click click : " + id);
 
 		Crafting.craft(player, id);
-//		if(id == 0){
-//			Crafting.craft(player, Crafting.Sticks);
-//		}
 	}
 
 	@Override

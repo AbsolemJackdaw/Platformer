@@ -6,6 +6,7 @@ import game.entity.MapObject;
 import game.entity.living.player.Player;
 import game.item.ItemStack;
 import game.item.Items;
+import game.item.tool.ItemTool;
 
 import java.awt.image.BufferedImage;
 import java.util.Random;
@@ -15,7 +16,7 @@ import base.tilemap.TileMap;
 public class BlockIron extends BlockBreakable {
 
 	public BlockIron(TileMap tm, World world) {
-		super(tm, world, Blocks.IRON);
+		super(tm, world, Blocks.IRON, ItemTool.PICKAXE);
 		
 	}
 

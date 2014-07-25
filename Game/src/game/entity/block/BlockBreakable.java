@@ -4,6 +4,7 @@ import game.World;
 import game.content.save.DataTag;
 import game.entity.MapObject;
 import game.entity.living.player.Player;
+import game.item.ItemStack;
 import game.item.tool.ItemTool;
 
 import java.awt.Color;
@@ -15,12 +16,14 @@ public class BlockBreakable extends Block{
 
 	private int health;
 	private boolean jiggle;
+	private int effectiveTool;
 
 	int tracker = 0;
 
-	public BlockBreakable(TileMap tm, World world, String uin) {
+	public BlockBreakable(TileMap tm, World world, String uin, int effectiveTool) {
 		super(tm, world, uin);
 		health = getHealth();
+		this.effectiveTool = effectiveTool;
 	}
 
 	public int getHealth(){
@@ -64,8 +67,9 @@ public class BlockBreakable extends Block{
 		jiggle = true;
 
 		int wepDmg = 0;
-		if(world.getPlayer().invArmor.getWeapon() != null)
-			wepDmg = ((ItemTool)world.getPlayer().invArmor.getWeapon().getItem()).getEffectiveDamage();
+		ItemStack wep = world.getPlayer().invArmor.getWeapon();
+		if(wep != null && effectiveTool == ((ItemTool)wep.getItem()).getEffectiveDamage())
+			wepDmg = ((ItemTool)wep.getItem()).getEffectiveDamage();
 
 		health -= world.getPlayer().getAttackDamage() + wepDmg;
 		if(health <= 0)

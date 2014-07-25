@@ -4,6 +4,7 @@ import game.World;
 import game.content.Images;
 import game.item.ItemStack;
 import game.item.Items;
+import game.item.tool.ItemTool;
 
 import java.awt.image.BufferedImage;
 import java.util.Random;
@@ -13,7 +14,7 @@ import base.tilemap.TileMap;
 public class BlockRock extends BlockBreakable{
 
 	public BlockRock(TileMap tm, World world) {
-		super(tm, world, Blocks.ROCK);
+		super(tm, world, Blocks.ROCK, ItemTool.PICKAXE);
 	}
 	
 	@Override

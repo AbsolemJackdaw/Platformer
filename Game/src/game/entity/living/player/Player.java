@@ -341,6 +341,7 @@ public class Player extends EntityLiving implements IInventory{
 			if(stack != null){
 				DataTag tag = new DataTag();
 				stack.writeToSave(tag);
+				tag.writeInt("slot", slot);
 				list.write(tag);
 			}
 		}
@@ -352,6 +353,7 @@ public class Player extends EntityLiving implements IInventory{
 			if(stack != null){
 				DataTag tag = new DataTag();
 				stack.writeToSave(tag);
+				tag.writeInt("slot", slot);
 				armor.write(tag);
 			}
 		}
@@ -365,15 +367,17 @@ public class Player extends EntityLiving implements IInventory{
 		DataList list = data.readList("items");
 		for(int i = 0; i < list.data().size(); i++){
 			DataTag tag = list.readArray(i);
+			int slot = tag.readInt("slot");
 			ItemStack stack = ItemStack.createFromSave(tag);
-			setStackInSlot(i, stack);
+			setStackInSlot(slot, stack);
 		}
 
 		DataList armor = data.readList("armorItems");
 		for(int i = 0; i < armor.data().size(); i++){
 			DataTag tag = armor.readArray(i);
+			int slot = tag.readInt("slot");
 			ItemStack stack = ItemStack.createFromSave(tag);
-			invArmor.setStackInSlot(i, stack);
+			invArmor.setStackInSlot(slot, stack);
 		}
 	}
 

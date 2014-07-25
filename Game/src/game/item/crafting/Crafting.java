@@ -9,11 +9,15 @@ public class Crafting {
 	public static ItemStack[] getRecipe(int i){
 		ItemStack[] is = new ItemStack[10];
 
-		if(i == 0){
+		if(i == Sticks){
 			is[0] = new ItemStack(Items.log, 1);
-		}else if(i == 1){
+		}else if(i == CraftTable){
 			is[0] = new ItemStack(Items.stick, 8);
 			is[1] = new ItemStack(Items.log, 1);
+		}
+		else if(i == Pickaxe){
+			is[0] = new ItemStack(Items.stick, 2);
+			is[1] = new ItemStack(Items.rock, 6);
 		}
 
 		return is;
@@ -31,32 +35,17 @@ public class Crafting {
 
 		case CraftTable:
 			st = new ItemStack(Items.craftTable, 1);
-
+			break;
+		case Pickaxe: 
+			st = new ItemStack(Items.pickaxe, 1);
+			break;
 		}
 		return st;
 	}
 
-	//	public static void craftSticks(Player player){
-	//		ItemStack input = new ItemStack(Items.log, 1);
-	//		ItemStack result = new ItemStack(Items.stick, 1);
-	//
-	//		int slot = player.getInventory().getSlotForStack(input);
-	//
-	//		if(slot >= 0){
-	//			ItemStack is = player.getStackInSlot(slot);
-	//			if(is.stackSize >= input.stackSize){
-	//				if(player.setStackInNextAvailableSlot(result)){
-	//					System.out.println("yup");
-	//					is.stackSize -= input.stackSize;
-	//					if(is.stackSize <= 0)
-	//						player.setStackInSlot(slot, null);
-	//				}
-	//			}
-	//		}
-	//	}
-
 	public static final int Sticks = 0;
 	public static final int CraftTable = 1;
+	public static final int Pickaxe = 2;
 
 	public static void craft(Player player, int recipe){
 		ItemStack[] input = getRecipe(recipe);

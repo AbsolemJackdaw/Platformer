@@ -21,9 +21,9 @@ public class Items {
 	public static Item rock= new Item("stone").setTexture(Images.loadImage("/items/stone.png"));
 
 	public static ItemBlock log = (ItemBlock) new ItemBlock(Blocks.LOG).setTexture(Images.loadImage("/blocks/log.png"));
-	public static ItemCraftingTable craftTable = new ItemCraftingTable();
+	public static ItemBlock craftTable = (ItemBlock) new ItemBlock(Blocks.CRAFTINGTABLE).setTexture(Images.loadImage("/blocks/workbench.png"));
 	
-	public static ItemTool pickaxe = new ItemTool("pickaxe").setAttackDamage(2).setEffectiveness(ItemTool.PICKAXE).setEffectiveDamage(5);
+	public static ItemTool pickaxe = (ItemTool) new ItemTool("pickaxe").setAttackDamage(2).setEffectiveness(ItemTool.PICKAXE).setEffectiveDamage(5).setTexture(Images.loadImage("/items/pickaxe.png"));
 	
 	public static void loadItems(){
 		registerItem(stick);
@@ -31,6 +31,7 @@ public class Items {
 		registerItem(log);
 		registerItem(iron);
 		registerItem(rock);
+		registerItem(pickaxe);
 	}
 
 	public static void registerItem(Item item){
