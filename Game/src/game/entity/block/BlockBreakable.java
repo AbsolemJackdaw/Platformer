@@ -68,7 +68,7 @@ public class BlockBreakable extends Block{
 
 		int wepDmg = 0;
 		ItemStack wep = world.getPlayer().invArmor.getWeapon();
-		if(wep != null && effectiveTool == ((ItemTool)wep.getItem()).getEffectiveDamage())
+		if(wep != null && effectiveTool == ((ItemTool)wep.getItem()).getEffectiveness())
 			wepDmg = ((ItemTool)wep.getItem()).getEffectiveDamage();
 
 		health -= world.getPlayer().getAttackDamage() + wepDmg;

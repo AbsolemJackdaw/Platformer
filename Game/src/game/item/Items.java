@@ -22,6 +22,7 @@ public class Items {
 
 	public static ItemBlock log = (ItemBlock) new ItemBlock(Blocks.LOG).setTexture(Images.loadImage("/blocks/log.png"));
 	public static ItemBlock craftTable = (ItemBlock) new ItemBlock(Blocks.CRAFTINGTABLE).setTexture(Images.loadImage("/blocks/workbench.png"));
+	public static ItemBlock campfire = (ItemBlock) new ItemBlock(Blocks.CAMPFIRE).setTexture(Images.loadImage("/blocks/campfire.png"));
 	
 	public static ItemTool pickaxe = (ItemTool) new ItemTool("pickaxe").setAttackDamage(2).setEffectiveness(ItemTool.PICKAXE).setEffectiveDamage(5).setTexture(Images.loadImage("/items/pickaxe.png"));
 	
@@ -32,6 +33,7 @@ public class Items {
 		registerItem(iron);
 		registerItem(rock);
 		registerItem(pickaxe);
+		registerItem(campfire);
 	}
 
 	public static void registerItem(Item item){

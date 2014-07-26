@@ -146,7 +146,7 @@ public class Player extends EntityLiving implements IInventory{
 
 		if (KeyHandler.isPressed(KeyHandler.CTRL))
 			setAttacking();
-		
+
 		for(int key : keys)
 			if(KeyHandler.isPressed(key)){
 				if(getStackInSlot(key-10) != null){
@@ -293,16 +293,21 @@ public class Player extends EntityLiving implements IInventory{
 
 	@Override
 	public boolean setStackInNextAvailableSlot(ItemStack item) {
+
 		for(int i = 0; i < inventory.length; i++)
-			if(getStackInSlot(i) == null){
-				setStackInSlot(i, item);
-				return true;
-			}else{
+			if(getStackInSlot(i) != null){
 				if (inventory[i].getItem().equals(item.getItem())){
 					setStackInSlot(i, item);
 					return true;
 				}
 			}
+
+		for(int i = 0; i < inventory.length; i++)
+			if(getStackInSlot(i) == null){
+				setStackInSlot(i, item);
+				return true;
+			}
+
 		return false;
 	}
 
@@ -386,7 +391,7 @@ public class Player extends EntityLiving implements IInventory{
 		public ItemStack getWeapon(){
 			return armorItems[3];
 		}
-		
+
 		@Override
 		public ItemStack[] getItems() {
 			return armorItems;

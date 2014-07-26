@@ -68,7 +68,7 @@ public class XboxController {
 
 		KeyHandler.keySet(KeyEvent.VK_LEFT, LEFT);
 		KeyHandler.keySet(KeyEvent.VK_RIGHT, RIGHT);
-		KeyHandler.keySet(KeyEvent.VK_SPACE, UP);
+		KeyHandler.keySet(KeyEvent.VK_UP, UP);
 		KeyHandler.keySet(KeyEvent.VK_DOWN, DOWN);
 
 		if(controller.isButtonPressed(X)){
@@ -93,6 +93,12 @@ public class XboxController {
 			KeyHandler.keySet(KeyEvent.VK_U, true);
 		}else{
 			KeyHandler.keySet(KeyEvent.VK_U, false);
+		}
+		
+		if(controller.isButtonPressed(LS) || controller.isButtonPressed(RS)){
+			KeyHandler.keySet(KeyEvent.VK_M, true);
+		}else{
+			KeyHandler.keySet(KeyEvent.VK_M, false);
 		}
 
 	}

@@ -28,6 +28,7 @@ public class KeyHandler {
 	public static int SEVEN = 16;
 	public static int EIGHT = 17;
 	public static int NINE = 18;
+	public static int PLACE = 19;
 
 	public static boolean anyKeyPress() {
 		for (int i = 0; i < NUM_KEYS; i++)
@@ -96,6 +97,9 @@ public class KeyHandler {
 		}
 		else if (i == KeyEvent.VK_9){
 			keyState[NINE] = b;
+		}
+		else if(i == KeyEvent.VK_M){
+			keyState[PLACE] = b;
 		}
 	}
 

@@ -21,12 +21,12 @@ public class ItemTool extends Item {
 		attackDamage = i;
 		return this;
 	}
-
+	/**Used to calculate damage done to entities*/
 	public int getAttackDamage(){
 		return attackDamage;
 	}
 
-	/**used to calculate damage against entities*/
+	/**Returns the effective type of this tool (pickaxe, axe, sword or none)*/
 	public int getEffectiveness(){
 		return effectiveness;
 	}
@@ -35,7 +35,8 @@ public class ItemTool extends Item {
 		this.effectiveness = i;
 		return this;
 	}
-	/**used for breaking blocks*/
+	
+	/**Used to calculate damage done to blocks*/
 	public int getEffectiveDamage() {
 		return effectiveDamage;
 	}

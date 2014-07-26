@@ -267,6 +267,14 @@ public abstract class MapObject {
 				(int) ((yScreen + ymap) - (entitySizeY / 2)),
 				entitySizeX, entitySizeY);
 	}
+	
+	public int posX(){
+		return (int) ((xScreen + xmap) - ((entitySizeX) / 2));
+	}
+	
+	public int posY(){
+		return (int) ((yScreen + ymap) - (entitySizeY / 2));
+	}
 
 	public int getScreenXpos() {
 		return (int) xScreen;

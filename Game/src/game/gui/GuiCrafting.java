@@ -21,6 +21,7 @@ public class GuiCrafting extends GuiContainer {
 		textures[0] = Items.stick.getTexture();
 		textures[1] = Items.craftTable.getTexture();
 		textures[2] = Items.pickaxe.getTexture();
+		textures[3] = Items.campfire.getTexture();
 
 		for(int i = 0; i < rowsX(); i ++){
 			for(int j = 0; j < rowsY(); j++){

@@ -5,15 +5,21 @@ import game.content.save.DataList;
 import game.content.save.DataTag;
 import game.content.save.Save;
 import game.entity.MapObject;
+import game.entity.block.BlockLight;
 import game.entity.block.Blocks;
 import game.entity.living.player.Player;
 import game.gui.Gui;
 import game.gui.GuiHud;
 import game.gui.GuiPause;
 import game.gui.GuiPlayerInventory;
+import game.item.ItemStack;
+import game.item.Items;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import base.main.GamePanel;
@@ -40,6 +46,8 @@ public class World extends GameState{
 	public boolean isDisplayingGui;
 	public Gui guiDisplaying;
 
+	public static int GameTime = 0;
+
 	public World(GameStateManager gsm) {
 		this.gsm = gsm;
 
@@ -58,11 +66,15 @@ public class World extends GameState{
 		listWithMapObjects = new ArrayList<MapObject>();
 
 		displayGui(new GuiHud(this, player));
-		
+
 	}
+
+	BufferedImage lighting = new BufferedImage(GamePanel.WIDTH, GamePanel.HEIGHT, BufferedImage.TYPE_INT_ARGB);
+	static float nightAlhpa = 0;
 
 	@Override
 	public void draw(Graphics2D g){
+
 		g.setColor(Color.white);
 		g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
 
@@ -78,14 +90,61 @@ public class World extends GameState{
 
 		player.draw(g);
 
+
+		// Creates the buffered image. has to be recreated every time for transparancy
+		BufferedImage lighting = new BufferedImage(GamePanel.WIDTH, GamePanel.HEIGHT, BufferedImage.TYPE_INT_ARGB);
+
+		Graphics2D gbi = lighting.createGraphics();
+
+		if(isNightTime()){
+			if(nightAlhpa < 0.95f)
+				nightAlhpa +=0.0003f;
+		}
+		else{
+			if(nightAlhpa > 0f)
+				nightAlhpa -= 0.0005f;
+		}
+
+		gbi.setColor(new Color(0f, 0f, 0.1f, nightAlhpa));
+		gbi.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
+
+		if(isNightTime()){
+			for(MapObject mo : listWithMapObjects){
+				if(mo instanceof BlockLight){
+					BlockLight light = (BlockLight)mo;
+
+					// Draws the circle of light into the buffered image.
+					for(int i = 0; i < 5; i++){
+						float f =  0f + (float)i / 10f;
+						gbi.setColor(new Color(0.0f, 0.0f, 0.0f, f));    
+						gbi.setComposite(AlphaComposite.DstOut);
+						gbi.fill(new Ellipse2D.Double((light.posX() + i * 5) - (light.getRadius()/2 - 32/2), (light.posY() + i * 5) - (light.getRadius()/2 - 32/2), light.getRadius() - i * 10, light.getRadius() - i *10));
+					}
+
+				}
+			}
+		}
+
+		// Draws the buffered image.
+		g.drawImage(lighting, 0,0, null);
+
+
 		if(isDisplayingGui && guiDisplaying != null){
 			guiDisplaying.draw(g);
 		}
+	}
 
+	public boolean isNightTime(){
+		return GameTime > 18000;
+	}
+
+	public int getGameTime(){
+		return GameTime;
 	}
 
 	@Override
 	public void update(){
+		System.out.println(GameTime);
 
 		if(backGrounds != null && !backGrounds.isEmpty())
 			for(Background bg : backGrounds)
@@ -96,6 +155,12 @@ public class World extends GameState{
 		tileMap.setPosition((GamePanel.WIDTH / 2) - player.getScreenXpos(),(GamePanel.HEIGHT / 2) - player.getScreenYpos());
 
 		if(!(isDisplayingGui && guiDisplaying != null && guiDisplaying.pausesGame())){
+			GameTime++;
+
+			if(GameTime == 32000){
+				GameTime = 0;
+			}
+
 			player.update();
 
 			for(MapObject obj : listWithMapObjects){
@@ -142,9 +207,11 @@ public class World extends GameState{
 		}
 
 		player.handleInput();
-		
-		if (KeyHandler.isPressed(KeyHandler.B))
+
+		if (KeyHandler.isPressed(KeyHandler.B)){
 			showBB = showBB ? false :true;
+			player.setStackInNextAvailableSlot(new ItemStack(Items.campfire, 5));
+		}
 
 	}
 
@@ -155,6 +222,9 @@ public class World extends GameState{
 	public void writeToSave(DataTag tag){
 
 		tag.writeString("map", worldPath);
+		
+		tag.writeInt("gametime", GameTime);
+		tag.writeFloat("nightshade", new Float(nightAlhpa));
 
 		DataList list = new DataList();
 		for(MapObject mo : listWithMapObjects){
@@ -168,7 +238,9 @@ public class World extends GameState{
 	public void readFromSave(DataTag tag){
 
 		reloadMap(tag.readString("map"));
-
+		GameTime = tag.readInt("gametime");
+		nightAlhpa = tag.readFloat("nightshade");
+		
 		DataList list = tag.readList("content");
 		for(int i = 0; i < list.data().size(); i ++){
 			DataTag dt = list.readArray(i);

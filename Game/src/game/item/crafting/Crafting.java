@@ -5,7 +5,12 @@ import game.item.ItemStack;
 import game.item.Items;
 
 public class Crafting {
-
+	
+	public static final int Sticks = 0;
+	public static final int CraftTable = 1;
+	public static final int Pickaxe = 2;
+	public static final int CampFire = 3;
+	
 	public static ItemStack[] getRecipe(int i){
 		ItemStack[] is = new ItemStack[10];
 
@@ -18,6 +23,10 @@ public class Crafting {
 		else if(i == Pickaxe){
 			is[0] = new ItemStack(Items.stick, 2);
 			is[1] = new ItemStack(Items.rock, 6);
+		}
+		else if(i == CampFire){
+			is[0] = new ItemStack(Items.log, 5);
+			is[1] = new ItemStack(Items.rock, 12);
 		}
 
 		return is;
@@ -39,13 +48,12 @@ public class Crafting {
 		case Pickaxe: 
 			st = new ItemStack(Items.pickaxe, 1);
 			break;
+			
+		case CampFire:
+			st = new ItemStack(Items.campfire, 1);
 		}
 		return st;
 	}
-
-	public static final int Sticks = 0;
-	public static final int CraftTable = 1;
-	public static final int Pickaxe = 2;
 
 	public static void craft(Player player, int recipe){
 		ItemStack[] input = getRecipe(recipe);

@@ -96,8 +96,8 @@ public class DataTag {
 			System.out.println("The tag "+ tag + " did not exist.");
 			return f;
 		}
-
-		f = (Float)data.get(tag);
+		double d = (double)data.get(tag);
+		f = (float)d;
 
 		return f;
 	}

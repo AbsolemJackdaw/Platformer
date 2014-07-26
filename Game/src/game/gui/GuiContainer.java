@@ -121,9 +121,14 @@ public class GuiContainer extends Gui implements Container{
 
 			}
 
+		containerItemSwappingLogic();
+
+	}
+
+	protected void containerItemSwappingLogic(){
 		//put stack from one inventory to another
 		if(blockInventory != null)
-			if(KeyHandler.isPressed(KeyHandler.ENTER) || KeyHandler.isPressed(KeyHandler.SPACE))
+			if(KeyHandler.isValidationKeyPressed())
 				if(isContainerInventory() && blockInventory != null){
 					System.out.println(slot_index);
 					if(blockInventory.getStackInSlot(slot_index) != null)

@@ -1,5 +1,6 @@
 package game.gui;
 
+import game.Loading;
 import game.World;
 import game.content.Images;
 import game.entity.living.player.Player;
@@ -24,6 +25,8 @@ public class GuiHud extends Gui{
 	public void draw(Graphics2D g) {
 		super.draw(g);
 
+		g.drawString(""+Loading.index , 10, 10);
+		
 		//inventory space
 		g.drawImage(img.getSubimage(0, 63, 200, 18), 150, GamePanel.HEIGHT - 25, null);
 		

@@ -3,15 +3,18 @@ package game.gui;
 import game.World;
 import game.content.Images;
 import game.entity.living.player.Player;
+import game.item.ItemBlock;
 import game.item.ItemStack;
 import game.item.Items;
 import game.item.crafting.Crafting;
+import game.item.tool.ItemTool;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import base.main.GamePanel;
 import base.main.keyhandler.KeyHandler;
+import base.main.keyhandler.XboxController;
 
 public class GuiPlayerInventory extends GuiContainer {
 
@@ -57,7 +60,7 @@ public class GuiPlayerInventory extends GuiContainer {
 		for(Button b : buttonList){
 			b.draw(g);
 		}
-		
+
 		if(currentContainer == 2){
 			int i = 0;
 			for(ItemStack stack : Crafting.getRecipe(slot_index)){
@@ -108,9 +111,23 @@ public class GuiPlayerInventory extends GuiContainer {
 	@Override
 	public void handleGuiKeyInput() {
 
-		if(currentContainer != 2)
+		if(currentContainer != 2){
 			super.handleGuiKeyInput();
-		
+			if(KeyHandler.isPressed(KeyHandler.PLACE) && XboxController.controller != null){
+				if(player.getStackInSlot(slot_index) != null){
+					if(player.getStackInSlot(slot_index).getItem() != null){
+						if(player.getStackInSlot(slot_index).getItem() instanceof ItemBlock){
+							ItemBlock ib = (ItemBlock)player.getStackInSlot(slot_index).getItem();
+							ib.placeBlock(player.getWorld().tileMap, player.getWorld(), player);
+							player.getStackInSlot(slot_index).stackSize--;
+							if(player.getStackInSlot(slot_index).stackSize == 0)
+								player.setStackInSlot(slot_index, null);
+						}
+					}
+				}
+			}
+		}
+
 		if(slot_index == 5 && currentContainer != 2){
 			if(!isContainerInventory() ){
 				if(KeyHandler.isPressed(KeyHandler.LEFT)){
@@ -122,25 +139,25 @@ public class GuiPlayerInventory extends GuiContainer {
 				}
 			}
 		}
-		
+
 		else if(currentContainer == 2){
 			if(KeyHandler.isPressed(KeyHandler.ESCAPE)){
 				world.displayGui(null);
 			}
-			
+
 			else if(KeyHandler.isPressed(KeyHandler.LEFT)){
 				if(slotIndex[0] == 1){
 					slotSelected.x -=getSlotSpacingX();
 					slotIndex[0]--;
 				}
 			}
-			
+
 			else if(KeyHandler.isPressed(KeyHandler.RIGHT)){
 				if(slotIndex[0] == 0){
 					slotSelected.x +=getSlotSpacingX();
 					slotIndex[0]++;
 				}
-				
+
 				else if(slotIndex[0] == 1){
 					currentContainer = PLAYER;
 					slotSelected.y = getFirstSlotLocationY();
@@ -148,14 +165,49 @@ public class GuiPlayerInventory extends GuiContainer {
 					slotIndex[1] = slotIndex[0] = 0;
 				}
 			}
-			
+
 			else if(KeyHandler.isValidationKeyPressed())
 				buttonClicked(slot_index);
 
 		}
 
 	}
-	
+
+	@Override
+	protected void containerItemSwappingLogic() {
+		if(blockInventory != null)
+			if(KeyHandler.isValidationKeyPressed())
+				if(isContainerInventory() && blockInventory != null){
+					System.out.println(slot_index);
+					if(blockInventory.getStackInSlot(slot_index) != null)
+						if(playerInventory.setStackInNextAvailableSlot(blockInventory.getStackInSlot(slot_index)))
+							blockInventory.setStackInSlot(slot_index, null);
+				}else{
+					int slot = slotIndex[0]+ (slotIndex[1]*(rowsX()));
+					System.out.println(slot);
+					if(playerInventory.getStackInSlot(slot) != null)
+						if(playerInventory.getStackInSlot(slot).getItem() instanceof ItemTool){
+							if(blockInventory.getStackInSlot(3) == null){
+								blockInventory.setStackInSlot(3, playerInventory.getStackInSlot(slot));
+								playerInventory.setStackInSlot(slot, null);
+							}else{
+								ItemStack a = playerInventory.getStackInSlot(slot);
+								ItemStack b = blockInventory.getStackInSlot(3);
+								
+								playerInventory.setStackInSlot(slot, b);
+								blockInventory.setStackInSlot(3, a);
+							}
+						}
+					//TODO instanceof ItemArmor
+//					if(playerInventory.getStackInSlot(slot).getItem() instanceof ItemTool){
+//						if(blockInventory.getStackInSlot(3) == null){
+//							blockInventory.setStackInSlot(3, playerInventory.getStackInSlot(slot));
+//							playerInventory.setStackInSlot(slot, null);
+//						}
+//					}
+				}
+	}
+
 	private void buttonClicked(int id){
 		System.out.println("click click : " + id);
 

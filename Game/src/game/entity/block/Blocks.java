@@ -10,7 +10,8 @@ public class Blocks {
 	public static final String CRAFTINGTABLE = "craftingtable";
 	public static final String IRON = "ironOre";
 	public static final String ROCK = "rock";
-
+	public static final String CAMPFIRE = "campfire";
+	
 	public static MapObject loadMapObjectFromString(String uin, TileMap tm, World w){
 		switch (uin) {
 		case LOG:
@@ -21,6 +22,8 @@ public class Blocks {
 			return new BlockIron(tm, w);
 		case ROCK:
 			return new BlockRock(tm, w);
+		case CAMPFIRE:
+			return new BlockLight(tm, w, CAMPFIRE).setRadius(200);
 			
 		default:
 			break;

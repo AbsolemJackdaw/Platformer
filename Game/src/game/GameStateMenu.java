@@ -66,7 +66,7 @@ public class GameStateMenu extends GameState{
 	@Override
 	public void update() {
 		
-		if (KeyHandler.isPressed(KeyHandler.ENTER))
+		if (KeyHandler.isValidationKeyPressed())
 			select();
 		if (KeyHandler.isPressed(KeyHandler.UP)) {
 			currentChoice--;
