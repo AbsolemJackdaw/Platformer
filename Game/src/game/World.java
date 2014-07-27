@@ -1,12 +1,14 @@
 package game;
 
 import game.content.Images;
+import game.content.SpawningLogic;
 import game.content.save.DataList;
 import game.content.save.DataTag;
 import game.content.save.Save;
 import game.entity.MapObject;
 import game.entity.block.BlockLight;
 import game.entity.block.Blocks;
+import game.entity.living.enemy.Entities;
 import game.entity.living.player.Player;
 import game.gui.Gui;
 import game.gui.GuiHud;
@@ -95,7 +97,6 @@ public class World extends GameState{
 		BufferedImage lighting = new BufferedImage(GamePanel.WIDTH, GamePanel.HEIGHT, BufferedImage.TYPE_INT_ARGB);
 
 		Graphics2D gbi = lighting.createGraphics();
-
 		if(isNightTime()){
 			if(nightAlhpa < 0.95f)
 				nightAlhpa +=0.0003f;
@@ -108,7 +109,7 @@ public class World extends GameState{
 		gbi.setColor(new Color(0f, 0f, 0.1f, nightAlhpa));
 		gbi.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
 
-		if(isNightTime()){
+		if(nightAlhpa > 0.1f){
 			for(MapObject mo : listWithMapObjects){
 				if(mo instanceof BlockLight){
 					BlockLight light = (BlockLight)mo;
@@ -144,7 +145,6 @@ public class World extends GameState{
 
 	@Override
 	public void update(){
-		System.out.println(GameTime);
 
 		if(backGrounds != null && !backGrounds.isEmpty())
 			for(Background bg : backGrounds)
@@ -155,12 +155,16 @@ public class World extends GameState{
 		tileMap.setPosition((GamePanel.WIDTH / 2) - player.getScreenXpos(),(GamePanel.HEIGHT / 2) - player.getScreenYpos());
 
 		if(!(isDisplayingGui && guiDisplaying != null && guiDisplaying.pausesGame())){
+		
 			GameTime++;
 
 			if(GameTime == 32000){
 				GameTime = 0;
 			}
 
+			if(isNightTime())
+			SpawningLogic.spawnNightCreatures(this);
+			
 			player.update();
 
 			for(MapObject obj : listWithMapObjects){
@@ -194,7 +198,7 @@ public class World extends GameState{
 			displayGui(new GuiPause(this, player));
 		}
 
-		if(KeyHandler.isPressed(KeyHandler.U) && guiDisplaying instanceof GuiHud && !(guiDisplaying instanceof GuiPlayerInventory)){
+		if(KeyHandler.isPressed(KeyHandler.INVENTORY) && guiDisplaying instanceof GuiHud && !(guiDisplaying instanceof GuiPlayerInventory)){
 			displayGui(new GuiPlayerInventory(this, player));
 		}
 
@@ -222,7 +226,7 @@ public class World extends GameState{
 	public void writeToSave(DataTag tag){
 
 		tag.writeString("map", worldPath);
-		
+
 		tag.writeInt("gametime", GameTime);
 		tag.writeFloat("nightshade", new Float(nightAlhpa));
 
@@ -240,14 +244,22 @@ public class World extends GameState{
 		reloadMap(tag.readString("map"));
 		GameTime = tag.readInt("gametime");
 		nightAlhpa = tag.readFloat("nightshade");
-		
+
 		DataList list = tag.readList("content");
 		for(int i = 0; i < list.data().size(); i ++){
 			DataTag dt = list.readArray(i);
 			String uin = dt.readString("UIN");
+			
 			MapObject mo = Blocks.loadMapObjectFromString(uin, tileMap, this);
-			mo.readFromSave(dt);
-			listWithMapObjects.add(mo);
+			
+			if(mo == null)
+				mo = Entities.loadEntityFromString(tileMap, this, uin);
+			if(mo != null){
+				mo.readFromSave(dt);
+				listWithMapObjects.add(mo);
+			}else{
+				System.out.println("The Entity for " + uin + " was not recognized. Skipped loading this entity");
+			}
 		}
 	}
 

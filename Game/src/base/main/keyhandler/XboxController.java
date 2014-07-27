@@ -72,9 +72,9 @@ public class XboxController {
 		KeyHandler.keySet(KeyEvent.VK_DOWN, DOWN);
 
 		if(controller.isButtonPressed(X)){
-			KeyHandler.keySet(KeyEvent.VK_CONTROL, true);
+			KeyHandler.keySet(KeyEvent.VK_R, true);
 		}else{
-			KeyHandler.keySet(KeyEvent.VK_CONTROL, false);
+			KeyHandler.keySet(KeyEvent.VK_R, false);
 		}
 
 		if(controller.isButtonPressed(A)){
@@ -90,9 +90,9 @@ public class XboxController {
 		}
 
 		if(controller.isButtonPressed(BACK)){
-			KeyHandler.keySet(KeyEvent.VK_U, true);
+			KeyHandler.keySet(KeyEvent.VK_I, true);
 		}else{
-			KeyHandler.keySet(KeyEvent.VK_U, false);
+			KeyHandler.keySet(KeyEvent.VK_I, false);
 		}
 		
 		if(controller.isButtonPressed(LS) || controller.isButtonPressed(RS)){
@@ -101,5 +101,10 @@ public class XboxController {
 			KeyHandler.keySet(KeyEvent.VK_M, false);
 		}
 
+		if(controller.isButtonPressed(Y)){
+			KeyHandler.keySet(KeyEvent.VK_E, true);
+		}else{
+			KeyHandler.keySet(KeyEvent.VK_E, false);
+		}
 	}
 }

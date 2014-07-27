@@ -20,14 +20,34 @@ public class BlockBreakable extends Block{
 
 	int tracker = 0;
 
-	public BlockBreakable(TileMap tm, World world, String uin, int effectiveTool) {
+	public BlockBreakable(TileMap tm, World world, String uin) {
 		super(tm, world, uin);
-		health = getHealth();
-		this.effectiveTool = effectiveTool;
+	}
+	
+	public BlockBreakable(TileMap tm, World world, String uin, int toolEffectiveness) {
+		this(tm, world, uin);
+		setEffectiveTool(toolEffectiveness);
 	}
 
+	public BlockBreakable setEffectiveTool(int tool){
+		effectiveTool = tool;
+		return this;
+	}
+	
+	public int getEffectiveTool(){
+		return effectiveTool;
+	}
+	
+	private int defaultHealth;
+	public BlockBreakable setHealth(int i){
+		health = i;
+		defaultHealth = i;
+		return this;
+	}
+	
+	
 	public int getHealth(){
-		return 1;
+		return health;
 	}
 
 	@Override
@@ -62,7 +82,7 @@ public class BlockBreakable extends Block{
 	}
 
 	@Override
-	public void interact(Player p, MapObject mo) {
+	public void onEntityHit(Player p, MapObject mo) {
 
 		jiggle = true;
 
@@ -83,10 +103,10 @@ public class BlockBreakable extends Block{
 				remove = true;
 			else {
 				remove = false;
-				health = 3;
+				health = defaultHealth;
 			}
 		}else{
-			health = 3;
+			health = defaultHealth;
 		}
 	}
 

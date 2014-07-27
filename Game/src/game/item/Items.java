@@ -25,6 +25,7 @@ public class Items {
 	public static ItemBlock campfire = (ItemBlock) new ItemBlock(Blocks.CAMPFIRE).setTexture(Images.loadImage("/blocks/campfire.png"));
 	
 	public static ItemTool pickaxe = (ItemTool) new ItemTool("pickaxe").setAttackDamage(2).setEffectiveness(ItemTool.PICKAXE).setEffectiveDamage(5).setTexture(Images.loadImage("/items/pickaxe.png"));
+	public static ItemTool sword   = (ItemTool) new ItemTool("sword").setAttackDamage(5).setEffectiveness(ItemTool.SWORD).setEffectiveDamage(2).setTexture(Images.loadImage("/items/sword.png"));
 	
 	public static void loadItems(){
 		registerItem(stick);
@@ -34,6 +35,8 @@ public class Items {
 		registerItem(rock);
 		registerItem(pickaxe);
 		registerItem(campfire);
+		registerItem(sword);
+
 	}
 
 	public static void registerItem(Item item){

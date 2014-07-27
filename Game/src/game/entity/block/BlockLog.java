@@ -14,13 +14,9 @@ public class BlockLog extends BlockBreakable{
 
 	public BlockLog(TileMap tm, World world) {
 		super(tm, world, Blocks.LOG, ItemTool.AXE);
+		setHealth(5);
 	}
 	
-	@Override
-	public int getHealth() {
-		return 3;
-	}
-
 	@Override
 	public BufferedImage getEntityTexture() {
 		return Images.instance.log;

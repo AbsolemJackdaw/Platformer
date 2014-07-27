@@ -10,15 +10,16 @@ public class Crafting {
 	public static final int CraftTable = 1;
 	public static final int Pickaxe = 2;
 	public static final int CampFire = 3;
-	
+	public static final int Sword = 4;
+
 	public static ItemStack[] getRecipe(int i){
 		ItemStack[] is = new ItemStack[10];
 
 		if(i == Sticks){
 			is[0] = new ItemStack(Items.log, 1);
 		}else if(i == CraftTable){
-			is[0] = new ItemStack(Items.stick, 8);
-			is[1] = new ItemStack(Items.log, 1);
+			is[0] = new ItemStack(Items.stick, 12);
+			is[1] = new ItemStack(Items.log, 4);
 		}
 		else if(i == Pickaxe){
 			is[0] = new ItemStack(Items.stick, 2);
@@ -27,6 +28,12 @@ public class Crafting {
 		else if(i == CampFire){
 			is[0] = new ItemStack(Items.log, 5);
 			is[1] = new ItemStack(Items.rock, 12);
+			is[2] = new ItemStack(Items.stick, 4);
+		}
+		else if(i == Sword){
+			is[0] = new ItemStack(Items.stick, 2);
+			is[1] = new ItemStack(Items.log, 1);
+			is[2] = new ItemStack(Items.rock, 8);
 		}
 
 		return is;
@@ -39,7 +46,7 @@ public class Crafting {
 		switch (i) {
 
 		case Sticks:
-			st = new ItemStack(Items.stick, 1);
+			st = new ItemStack(Items.stick, 2);
 			break;
 
 		case CraftTable:
@@ -51,6 +58,12 @@ public class Crafting {
 			
 		case CampFire:
 			st = new ItemStack(Items.campfire, 1);
+			break;
+			
+		case Sword :
+			st = new ItemStack(Items.sword, 1);
+			break;
+			
 		}
 		return st;
 	}
@@ -98,36 +111,4 @@ public class Crafting {
 			}
 		}
 	}
-
-	//	public static void craftCraftTable(Player player){
-	//		ItemStack[] input = new ItemStack[]{new ItemStack(Items.log, 1), new ItemStack(Items.stick, 8)};
-	//		ItemStack result = new ItemStack(Items.craftTable, 1);
-	//		boolean flag[] = new boolean[]{false,false};
-	//
-	//		if(player.hasStack(input[0])){
-	//			if(player.hasStack(input[1])){
-	//				for(int it = 0; it < input.length; it++){
-	//					for(int i = 0; i < player.getInventory().getItems().length; i++){
-	//						if(player.getStackInSlot(i) != null){
-	//							if(player.getStackInSlot(i).getItem().equals(input[it].getItem())){
-	//								if(player.getStackInSlot(i).stackSize >= input[it].stackSize){
-	//									flag[it] = true;
-	//								}
-	//							}
-	//						}
-	//					}
-	//				}
-	//			}
-	//		}
-	//
-	//		if(flag[0] && flag[1]){
-	//			player.setStackInNextAvailableSlot(result);
-	//			for(int a = 0; a < input.length; a++){
-	//				int i = player.getInventory().getSlotForStack(input[a]);
-	//				player.getItems()[i].stackSize -= input[a].stackSize;
-	//				if(player.getItems()[i].stackSize == 0)
-	//					player.getItems()[i] = null;
-	//			}
-	//		}
-	//	}
 }

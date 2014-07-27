@@ -4,7 +4,6 @@ import game.World;
 import game.content.Images;
 import game.entity.living.player.Player;
 import game.item.ItemStack;
-import game.item.Items;
 import game.item.crafting.Crafting;
 
 import java.awt.Graphics2D;
@@ -18,10 +17,9 @@ public class GuiCrafting extends GuiContainer {
 		super(world, p);
 
 		BufferedImage[] textures = new BufferedImage[15];
-		textures[0] = Items.stick.getTexture();
-		textures[1] = Items.craftTable.getTexture();
-		textures[2] = Items.pickaxe.getTexture();
-		textures[3] = Items.campfire.getTexture();
+		for(int i = 0; i < 15; i ++)
+			if(Crafting.result(i) != null)
+				textures[i] = Crafting.result(i).getItem().getTexture();
 
 		for(int i = 0; i < rowsX(); i ++){
 			for(int j = 0; j < rowsY(); j++){

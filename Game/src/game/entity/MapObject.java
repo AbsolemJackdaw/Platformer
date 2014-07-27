@@ -378,7 +378,7 @@ public abstract class MapObject {
 		animation.update();
 	}
 	
-	public void interact(Player p, MapObject mo){
+	public void onEntityHit(Player p, MapObject mo){
 		
 	}
 	

@@ -15,7 +15,7 @@ public class KeyHandler {
 	public static int ENTER = 4;
 	public static int DOWN = 5;
 	public static int CTRL = 6;
-	public static int U = 7;
+	public static int INVENTORY = 7;
 	public static int B = 8;
 	public static int ESCAPE = 9;
 	
@@ -30,6 +30,8 @@ public class KeyHandler {
 	public static int NINE = 18;
 	public static int PLACE = 19;
 
+	public static int INTERACT = 20;
+	
 	public static boolean anyKeyPress() {
 		for (int i = 0; i < NUM_KEYS; i++)
 			if (keyState[i])
@@ -62,11 +64,11 @@ public class KeyHandler {
 		else if (i == KeyEvent.VK_ESCAPE)
 			keyState[ESCAPE] = b;
 
-		else if (i == KeyEvent.VK_CONTROL)
+		else if (i == KeyEvent.VK_R)
 			keyState[CTRL] = b;
 
-		else if (i == KeyEvent.VK_U)
-			keyState[U] = b;
+		else if (i == KeyEvent.VK_I)
+			keyState[INVENTORY] = b;
 
 		else if (i == KeyEvent.VK_B)
 			keyState[B] = b;
@@ -98,8 +100,12 @@ public class KeyHandler {
 		else if (i == KeyEvent.VK_9){
 			keyState[NINE] = b;
 		}
+		//xbox only.
 		else if(i == KeyEvent.VK_M){
 			keyState[PLACE] = b;
+		}
+		else if(i == KeyEvent.VK_E){
+			keyState[INTERACT] = b;
 		}
 	}
 

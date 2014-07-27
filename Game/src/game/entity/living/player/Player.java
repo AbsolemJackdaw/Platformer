@@ -8,6 +8,7 @@ import game.content.save.DataList;
 import game.content.save.DataTag;
 import game.entity.Animation;
 import game.entity.MapObject;
+import game.entity.block.Block;
 import game.entity.inventory.IInventory;
 import game.entity.living.EntityLiving;
 import game.item.ItemBlock;
@@ -31,8 +32,6 @@ public class Player extends EntityLiving implements IInventory{
 	private static final int JUMPING = 2;
 	private static final int FALLING = 3;
 	private static final int ATTACKING = 4;
-
-	public static Animation animation = new Animation();
 
 	private ItemStack[] inventory = new ItemStack[10];
 	private ItemStack[] armorItems = new ItemStack[4];
@@ -132,6 +131,7 @@ public class Player extends EntityLiving implements IInventory{
 				dy = maxFallSpeed;
 
 		}
+		
 	}
 
 	private int[] keys = new int[]{KeyHandler.ONE, KeyHandler.TWO, KeyHandler.THREE,
@@ -146,6 +146,15 @@ public class Player extends EntityLiving implements IInventory{
 
 		if (KeyHandler.isPressed(KeyHandler.CTRL))
 			setAttacking();
+
+		if(KeyHandler.isPressed(KeyHandler.INTERACT)){
+			for(MapObject o : getWorld().listWithMapObjects){
+				if(o instanceof Block){
+					Block b = (Block)o;
+					b.interact(this, o);
+				}
+			}
+		}
 
 		for(int key : keys)
 			if(KeyHandler.isPressed(key)){
@@ -181,9 +190,9 @@ public class Player extends EntityLiving implements IInventory{
 				entitySizeX += 5;
 				if(getRectangle().intersects(o.getRectangle())){
 					if(o.getScreenXpos() > getScreenXpos() && facingRight)
-						o.interact(this, o);
+						o.onEntityHit(this, o);
 					else if( o.getScreenXpos() < getScreenXpos() && !facingRight)
-						o.interact(this, o);
+						o.onEntityHit(this, o);
 				}
 				entitySizeX -= 5;
 			}
@@ -261,7 +270,6 @@ public class Player extends EntityLiving implements IInventory{
 	}
 
 	public int getAttackDamage(){
-		//TODO include weapon strength
 		return 1;
 	}
 

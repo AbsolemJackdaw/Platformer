@@ -15,7 +15,7 @@ public class BlockIron extends BlockBreakable {
 
 	public BlockIron(TileMap tm, World world) {
 		super(tm, world, Blocks.IRON, ItemTool.PICKAXE);
-		
+		setHealth(50);
 	}
 
 	@Override
@@ -26,11 +26,6 @@ public class BlockIron extends BlockBreakable {
 	@Override
 	public boolean hasAnimation() {
 		return false;
-	}
-	
-	@Override
-	public int getHealth() {
-		return 50;
 	}
 	
 	@Override

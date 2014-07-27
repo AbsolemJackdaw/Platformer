@@ -15,11 +15,7 @@ public class BlockRock extends BlockBreakable{
 
 	public BlockRock(TileMap tm, World world) {
 		super(tm, world, Blocks.ROCK, ItemTool.PICKAXE);
-	}
-	
-	@Override
-	public int getHealth() {
-		return 15;
+		setHealth(15);
 	}
 	
 	@Override
