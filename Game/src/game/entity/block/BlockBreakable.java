@@ -92,6 +92,9 @@ public class BlockBreakable extends Block{
 			wepDmg = ((ItemTool)wep.getItem()).getEffectiveDamage();
 
 		health -= world.getPlayer().getAttackDamage() + wepDmg;
+		//TODO add check so blocks might not be broken without specific tool
+		//boolean check requiresTool ?
+		
 		if(health <= 0)
 			mine(p);
 

@@ -16,6 +16,7 @@ import game.item.ItemStack;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 import base.main.keyhandler.KeyHandler;
 import base.tilemap.TileMap;
@@ -27,11 +28,31 @@ public class Player extends EntityLiving implements IInventory{
 
 	private boolean attacking;
 
-	private static final int IDLE = 0;
-	private static final int WALKING = 1;
-	private static final int JUMPING = 2;
-	private static final int FALLING = 3;
-	private static final int ATTACKING = 4;
+	private static final int BODY_IDLE = 0;
+	private static final int HEAD_IDLE = 1;
+	private static final int ARMS_IDLE = 2;
+	private static final int LEGS_IDLE = 3;
+	private static final int HEAD_JUMP = 4;
+	private static final int ARM_JUMP = 5; //same as leg, but 1st frame
+	private static final int LEG_JUMP = 5; //same as arm, but 2nd frame
+	private static final int ARMS_RUN = 6;
+	private static final int BODY_RUN = 7;
+	private static final int LEGS_RUN = 8;
+	private static final int ARMS_WEAPON = 9;
+	private static final int ARMS_ATTACK = 10;
+	private static final int LEGS_ATTACK = 11; //frame 0
+	private static final int HEAD_ATTACK = 11; //frame 1
+	private static final int BODY_ATTACK = 11; //frame 2
+	
+	private static final int ACTION_ATTACK = 0;
+	private static final int ACTION_WALK = 1;
+	private static final int ACTION_JUMPING = 2;
+	private static final int ACTION_FALLING = 3;
+	private static final int ACTION_IDLE = 4;
+	
+	private Animation head = new Animation();
+	private Animation arms = new Animation();
+	private Animation legs = new Animation();
 
 	private ItemStack[] inventory = new ItemStack[10];
 	private ItemStack[] armorItems = new ItemStack[4];
@@ -82,10 +103,15 @@ public class Player extends EntityLiving implements IInventory{
 				g.setColor(Color.WHITE);
 			//				return;
 		}
+		
+		//Draw all parts here
 		super.draw(g);
+		super.draw(g, head);
+		super.draw(g, arms);
+		super.draw(g, legs);
 
 	}
-
+	
 	@Override
 	public void getNextPosition() {
 
@@ -109,7 +135,7 @@ public class Player extends EntityLiving implements IInventory{
 		}
 
 		// cannot move while attacking, except in air
-		if ((currentAction == ATTACKING) && !(jumping || falling))
+		if ((currentAction == ACTION_ATTACK) && !(jumping || falling))
 			dx = 0;
 
 		// jumping
@@ -150,8 +176,10 @@ public class Player extends EntityLiving implements IInventory{
 		if(KeyHandler.isPressed(KeyHandler.INTERACT)){
 			for(MapObject o : getWorld().listWithMapObjects){
 				if(o instanceof Block){
-					Block b = (Block)o;
-					b.interact(this, o);
+					if(o.intersects(this)){
+						Block b = (Block)o;
+						b.interact(this, o);
+					}
 				}
 			}
 		}
@@ -180,11 +208,11 @@ public class Player extends EntityLiving implements IInventory{
 		setPosition(xtemp, ytemp);
 
 		//check for animation to loop, then stop attacking
-		if (currentAction == ATTACKING)
-			if (getAnimation().hasPlayedOnce())
+		if (currentAction == ACTION_ATTACK)
+			if (arms.hasPlayedOnce()) //arms needs to be looped, as only arms are animated
 				attacking = false;
 
-		if (attacking && (currentAction != ATTACKING)) {
+		if (attacking && (currentAction != ACTION_ATTACK)) {
 			//TODO attack enemies
 			for(MapObject o : getWorld().listWithMapObjects){
 				entitySizeX += 5;
@@ -208,7 +236,7 @@ public class Player extends EntityLiving implements IInventory{
 		updatePlayerAnimation();
 
 		// set direction
-		if (currentAction != ATTACKING) {
+		if (currentAction != ACTION_ATTACK) {
 			if (right)
 				facingRight = true;
 			if (left)
@@ -220,39 +248,90 @@ public class Player extends EntityLiving implements IInventory{
 		attacking = true;
 	}
 
+	/**return an array of images that conseales the body parts*/
+	private BufferedImage[] getBodyPart(int i){
+		return Images.instance.playerSheet.get(i);
+	}
+	
 	private void updatePlayerAnimation() {
 		// set animation
 		if (attacking) {
-			if (currentAction != ATTACKING) {
-				currentAction = ATTACKING;
-				getAnimation().setFrames(Images.instance.playerSheet.get(ATTACKING));
-				getAnimation().setDelay(75);
+			if (currentAction != ACTION_ATTACK) {
+				currentAction = ACTION_ATTACK;
+				
+				getAnimation().setFrames(getBodyPart(BODY_ATTACK));
+				getAnimation().setDelay(Animation.NONE);
+				getAnimation().setFrame(2);
+				head.setFrames(getBodyPart(HEAD_ATTACK));
+				head.setFrame(1);
+				head.setDelay(Animation.NONE);
+				arms.setFrames(getBodyPart(ARMS_ATTACK));
+				arms.setDelay(50);
+				legs.setFrames(getBodyPart(LEGS_ATTACK));
+				legs.setFrame(0);
+				legs.setDelay(Animation.NONE);
+				
 			}
 		} else if (dy > 0) {
-			if (currentAction != FALLING) {
-				currentAction = FALLING;
-				getAnimation().setFrames(Images.instance.playerSheet.get(FALLING));
+			if (currentAction != ACTION_FALLING) {
+				currentAction = ACTION_FALLING;
+				
+				getAnimation().setFrames(getBodyPart(BODY_RUN));
 				getAnimation().setDelay(100);
+				
+				head.setFrames(getBodyPart(HEAD_JUMP));
+				head.setFrame(1);
+				head.setDelay(Animation.NONE);
+				arms.setFrames(getBodyPart(ARM_JUMP));
+				arms.setFrame(0);
+				arms.setDelay(Animation.NONE);
+				legs.setFrames(getBodyPart(LEG_JUMP));
+				legs.setFrame(1);
+				legs.setDelay(Animation.NONE);
 			}
 		} else if (dy < 0) {
-			if (currentAction != JUMPING) {
-				currentAction = JUMPING;
-				getAnimation().setFrames(Images.instance.playerSheet.get(JUMPING));
-				getAnimation().setDelay(Animation.NONE);
+			if (currentAction != ACTION_JUMPING) {
+				currentAction = ACTION_JUMPING;
+				
+				getAnimation().setFrames(getBodyPart(BODY_RUN));
+				head.setFrames(getBodyPart(HEAD_JUMP));
+				head.setFrame(0);
+				head.setDelay(Animation.NONE);
+				arms.setFrames(getBodyPart(ARM_JUMP));
+				arms.setFrame(0);
+				arms.setDelay(Animation.NONE);
+				legs.setFrames(getBodyPart(LEG_JUMP));
+				legs.setFrame(1);
+				legs.setDelay(Animation.NONE);
 			}
 		} else if (left || right) {
-			if (currentAction != WALKING) {
-				currentAction = WALKING;
-				getAnimation().setFrames(Images.instance.playerSheet.get(WALKING));
-				getAnimation().setDelay(75);
+			if (currentAction != ACTION_WALK) {
+				currentAction = ACTION_WALK;
+				
+				getAnimation().setFrames(getBodyPart(BODY_RUN));
+				head.setFrames(getBodyPart(HEAD_IDLE));
+				arms.setFrames(getBodyPart(ARMS_RUN));
+				arms.setDelay(75);
+				legs.setFrames(getBodyPart(LEGS_RUN));
+				legs.setDelay(75);
+				
 			}
-		} else if (currentAction != IDLE) {
-			currentAction = IDLE;
-			getAnimation().setFrames(Images.instance.playerSheet.get(IDLE));
-			getAnimation().setDelay(100);
+		} else if (currentAction != ACTION_IDLE) {
+			currentAction = ACTION_IDLE;
+						
+			//body
+			getAnimation().setFrames(getBodyPart(BODY_IDLE));
+			head.setFrames(getBodyPart(HEAD_IDLE));
+			//change arm animation from idle in sheet
+			arms.setFrames(getBodyPart(ARMS_IDLE));
+			arms.setDelay(500);
+			legs.setFrames(getBodyPart(LEGS_IDLE));
 		}
 
 		getAnimation().update();
+		head.update();
+		arms.update();
+		legs.update();
 	}
 
 	@Override
@@ -482,5 +561,12 @@ public class Player extends EntityLiving implements IInventory{
 			}
 		}
 		return -1;
+	}
+	
+	
+	/**used in torchlight for lighting at night*/
+	public int getRadius(){
+		//if player has torch, get light strenght from torch
+		return 200;
 	}
 }

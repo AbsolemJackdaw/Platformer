@@ -6,7 +6,6 @@ import game.content.save.DataList;
 import game.content.save.DataTag;
 import game.content.save.Save;
 import game.entity.MapObject;
-import game.entity.block.BlockLight;
 import game.entity.block.Blocks;
 import game.entity.living.enemy.Entities;
 import game.entity.living.player.Player;
@@ -109,26 +108,49 @@ public class World extends GameState{
 		gbi.setColor(new Color(0f, 0f, 0.1f, nightAlhpa));
 		gbi.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
 
+
+		System.out.println(GameTime);
+		
+		Ellipse2D ellipse = null;
+		
+		//campfire cuts out circle here
 		if(nightAlhpa > 0.1f){
-			for(MapObject mo : listWithMapObjects){
-				if(mo instanceof BlockLight){
-					BlockLight light = (BlockLight)mo;
 
-					// Draws the circle of light into the buffered image.
-					for(int i = 0; i < 5; i++){
-						float f =  0f + (float)i / 10f;
-						gbi.setColor(new Color(0.0f, 0.0f, 0.0f, f));    
-						gbi.setComposite(AlphaComposite.DstOut);
-						gbi.fill(new Ellipse2D.Double((light.posX() + i * 5) - (light.getRadius()/2 - 32/2), (light.posY() + i * 5) - (light.getRadius()/2 - 32/2), light.getRadius() - i * 10, light.getRadius() - i *10));
-					}
+			/**changed light to player instead of blocks*/
 
-				}
+			//			for(MapObject mo : listWithMapObjects){
+			//				if(mo instanceof BlockLight){
+			//					BlockLight light = (BlockLight)mo;
+
+			// Draws the circle of light into the buffered image.
+			//					for(int i = 0; i < 5; i++){
+			//						int i =5;
+			//						float f =  0f + (float)i / 10f;
+			//						gbi.setColor(new Color(0.0f, 0.0f, 0.0f, f));    
+			//						gbi.setComposite(AlphaComposite.DstOut);
+			//						gbi.fill(new Ellipse2D.Double((light.posX() + i * 5) - (light.getRadius()/2 - 32/2), (light.posY() + i * 5) - (light.getRadius()/2 - 32/2), light.getRadius() - i * 10, light.getRadius() - i *10));
+			//					}
+
+			int i =5;
+			
+			float f =  0f + (float)i / 10f;
+			
+			int x =(player.posX() + i * 5) - (player.getRadius()/2 - 32/2);
+			int y = (player.posY() + i * 5) - (player.getRadius()/2 - 32/2);
+			int h = player.getRadius() - i * 10;
+			int w = player.getRadius() - i *10;
+			
+			float scale = 15f;
+			for(float i1 = 0; i1 <5; i1++){
+				gbi.setColor(new Color(0f, 0f, 0f, f));    
+				gbi.setComposite(AlphaComposite.DstOut);
+				ellipse = new Ellipse2D.Double(x+(i1*(scale/2f)),y+(i1*(scale/2f)),h-(i1*scale),w-(i1*scale));
+				gbi.fill(ellipse);
 			}
 		}
 
 		// Draws the buffered image.
 		g.drawImage(lighting, 0,0, null);
-
 
 		if(isDisplayingGui && guiDisplaying != null){
 			guiDisplaying.draw(g);
@@ -155,16 +177,17 @@ public class World extends GameState{
 		tileMap.setPosition((GamePanel.WIDTH / 2) - player.getScreenXpos(),(GamePanel.HEIGHT / 2) - player.getScreenYpos());
 
 		if(!(isDisplayingGui && guiDisplaying != null && guiDisplaying.pausesGame())){
-		
-			GameTime++;
 
-			if(GameTime == 32000){
-				GameTime = 0;
-			}
+//			TODO put time back into game, plus lighting logic
+//			GameTime++;
+
+//			if(GameTime >= 32000){
+//				GameTime = 0;
+//			}
 
 			if(isNightTime())
-			SpawningLogic.spawnNightCreatures(this);
-			
+				SpawningLogic.spawnNightCreatures(this);
+
 			player.update();
 
 			for(MapObject obj : listWithMapObjects){
@@ -249,9 +272,9 @@ public class World extends GameState{
 		for(int i = 0; i < list.data().size(); i ++){
 			DataTag dt = list.readArray(i);
 			String uin = dt.readString("UIN");
-			
+
 			MapObject mo = Blocks.loadMapObjectFromString(uin, tileMap, this);
-			
+
 			if(mo == null)
 				mo = Entities.loadEntityFromString(tileMap, this, uin);
 			if(mo != null){

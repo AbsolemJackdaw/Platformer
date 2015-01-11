@@ -21,15 +21,28 @@ public class Images {
 	}
 	// for every animation, add the number of frames here
 	// sample : 2,5,8,4 (2 for idle 0, 5 for walking 1, etc.
-	public static final int[] numFrames = {20, 10, 1, 1, 3 };
+	//public static final int[] numFrames = {20, 10, 1, 1, 3 };
 
-	public BufferedImage menu = loadImage("/background/menu.png");
-	public Background menuBackGround = new Background("/background/menu.png", 2, false, 5);
-	public ArrayList<BufferedImage[]> playerSheet = loadMultiAnimation(numFrames, 32, 32, "/player/player.png");
+	public static final int[] playerSprites = {
+		/*body (general)*/1,
+		/*idle*/1,4,1,
+		/*falling/jump*/2,2,
+		/*running*/9,1,10,
+		/*weapon arms*/1,
+		/*fight arms*/3,
+		/*fight body parts*/3
+		
+	};
+
 	
+	public BufferedImage menu = loadImage("/background/menu.png");
+	public BufferedImage log = loadImage("/blocks/log.png");
+
+	public Background menuBackGround = new Background("/background/menu.png", 2, false, 5);
+	
+	public ArrayList<BufferedImage[]> playerSheet = loadMultiAnimation(playerSprites, 32, 32, "/player/player_2.png");
 	public BufferedImage[] defaultAnim = loadMultiImage("/images/default.png", 32, 0, 5);
 
-	public BufferedImage log = loadImage("/blocks/log.png");
 	
 	public static BufferedImage loadImage(String s){
 		BufferedImage image = null;
