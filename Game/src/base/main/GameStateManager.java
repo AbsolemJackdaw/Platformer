@@ -3,6 +3,10 @@ package base.main;
 import game.GameStateMenu;
 import game.World;
 import game.content.Images;
+
+import java.awt.Color;
+import java.awt.Graphics2D;
+
 import base.main.keyhandler.XboxController;
 import base.main.music.Music;
 
@@ -34,11 +38,11 @@ public class GameStateManager {
 		
 	}
 
-	public void draw(java.awt.Graphics2D g) {
+	public void draw(Graphics2D g) {
 		if (gameStates[currentState] != null)
 			gameStates[currentState].draw(g);
 		else {
-			g.setColor(java.awt.Color.BLACK);
+			g.setColor(Color.BLACK);
 			g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
 		}
 	}

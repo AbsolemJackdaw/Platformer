@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import base.main.GamePanel;
 import base.tilemap.Tile;
@@ -97,6 +98,8 @@ public abstract class MapObject {
 	
 	private final String UIN;
 
+	protected Random rand = new Random();
+	
 	/**used to remove objects*/
 	public boolean remove;
 	// constructor
@@ -318,10 +321,6 @@ public abstract class MapObject {
 		jumping = b;
 	}
 
-	public void setLeft(boolean b) {
-		left = b;
-	}
-
 	public void setMapPosition() {
 		xmap = tileMap.getx();
 		ymap = tileMap.gety();
@@ -332,8 +331,19 @@ public abstract class MapObject {
 		this.yScreen = y;
 	}
 
+	//facing has to be set manually in the entity class
+	public void setLeft(boolean b) {
+		left = b;
+		if(right) 
+			right = !b;
+//		facingRight = !b;
+	}
+	
 	public void setRight(boolean b) {
 		right = b;
+		if(left) 
+			left = !b;
+//		facingRight = b;
 	}
 
 	public void setUp(boolean b) {

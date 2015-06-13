@@ -12,6 +12,8 @@ import base.tilemap.TileMap;
 
 public class BlockLog extends BlockBreakable{
 
+	BufferedImage img = Images.loadImage("/blocks/log.png");
+	
 	public BlockLog(TileMap tm, World world) {
 		super(tm, world, Blocks.LOG, ItemTool.AXE);
 		setHealth(5);
@@ -19,7 +21,7 @@ public class BlockLog extends BlockBreakable{
 	
 	@Override
 	public BufferedImage getEntityTexture() {
-		return Images.instance.log;
+		return img;
 	}
 
 	@Override

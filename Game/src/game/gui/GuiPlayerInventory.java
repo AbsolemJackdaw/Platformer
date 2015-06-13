@@ -25,9 +25,9 @@ public class GuiPlayerInventory extends GuiContainer {
 	public GuiPlayerInventory(World world, Player p) {
 		super(world, p);
 
-		img = Images.loadImage("/player/playerGui.png");
+		img = Images.loadImage("/gui/playerGui.png");
 
-		blockInventory = p.invArmor.getInventory();
+		secondairyInventory = p.invArmor.getInventory();
 
 		buttonList.add(new Button(centerX - 50, centerY + 13, Items.craftTable.getTexture()));
 		buttonList.add(new Button(centerX - 18 - 50, centerY + 13, Items.stick.getTexture()));
@@ -53,8 +53,8 @@ public class GuiPlayerInventory extends GuiContainer {
 			}
 		}
 
-		for(int slot = 0; slot < blockInventory.getMaxSlots(); slot++){
-			ItemStack stack = blockInventory.getStackInSlot(slot);
+		for(int slot = 0; slot < secondairyInventory.getMaxSlots(); slot++){
+			ItemStack stack = secondairyInventory.getStackInSlot(slot);
 			if(stack != null){
 				stack.getItem().draw(g, GamePanel.WIDTH/2 - 150/2 + 51 + (18*slot)-2, (GamePanel.HEIGHT/2 - 28), stack);
 			}
@@ -88,7 +88,7 @@ public class GuiPlayerInventory extends GuiContainer {
 
 	@Override
 	public int getFirstSlotLocationY() {
-		return currentContainer == 2 ? centerY + 12 : isContainerInventory() ? GamePanel.HEIGHT/2 - 75/2+ 8 :GamePanel.HEIGHT/2 - 75/2 + 32;
+		return currentContainer == 2 ? centerY + 12 : isNotPlayerInventory() ? GamePanel.HEIGHT/2 - 75/2+ 8 :GamePanel.HEIGHT/2 - 75/2 + 32;
 	}
 
 	@Override
@@ -103,12 +103,12 @@ public class GuiPlayerInventory extends GuiContainer {
 
 	@Override
 	public int rowsX() {
-		return isContainerInventory() ? 4 : 5;
+		return isNotPlayerInventory() ? 4 : 5;
 	}
 
 	@Override
 	public int rowsY() {
-		return isContainerInventory() ? 1 : 2;
+		return isNotPlayerInventory() ? 1 : 2;
 	}
 
 	@Override
@@ -116,9 +116,13 @@ public class GuiPlayerInventory extends GuiContainer {
 
 		if(currentContainer != 2){
 			super.handleGuiKeyInput();
+
 			if(KeyHandler.isPressed(KeyHandler.PLACE) && XboxController.controller != null){
+
 				if(player.getStackInSlot(slot_index) != null){
+
 					if(player.getStackInSlot(slot_index).getItem() != null){
+						//place down blocks
 						if(player.getStackInSlot(slot_index).getItem() instanceof ItemBlock){
 							ItemBlock ib = (ItemBlock)player.getStackInSlot(slot_index).getItem();
 							ib.placeBlock(player.getWorld().tileMap, player.getWorld(), player);
@@ -132,7 +136,7 @@ public class GuiPlayerInventory extends GuiContainer {
 		}
 
 		if(slot_index == 5 && currentContainer != 2){
-			if(!isContainerInventory() ){
+			if(!isNotPlayerInventory() ){
 				if(KeyHandler.isPressed(KeyHandler.LEFT)){
 					currentContainer = 2;
 					slotSelected.y = getFirstSlotLocationY();
@@ -178,36 +182,45 @@ public class GuiPlayerInventory extends GuiContainer {
 
 	@Override
 	protected void containerItemSwappingLogic() {
-		if(blockInventory != null)
+		if(secondairyInventory != null)
 			if(KeyHandler.isValidationKeyPressed())
-				if(isContainerInventory() && blockInventory != null){
+				if(isNotPlayerInventory() && secondairyInventory != null){ //armor inventory
 					System.out.println(slot_index);
-					if(blockInventory.getStackInSlot(slot_index) != null)
-						if(playerInventory.setStackInNextAvailableSlot(blockInventory.getStackInSlot(slot_index)))
-							blockInventory.setStackInSlot(slot_index, null);
-				}else{
+					//switch armor to player inventory
+					if(secondairyInventory.getStackInSlot(slot_index) != null)
+						if(playerInventory.setStackInNextAvailableSlot(secondairyInventory.getStackInSlot(slot_index)))
+							secondairyInventory.setStackInSlot(slot_index, null);
+				}else{//inentory to armor logic
 					int slot = slotIndex[0]+ (slotIndex[1]*(rowsX()));
 					System.out.println(slot);
 					if(playerInventory.getStackInSlot(slot) != null)
 						if(playerInventory.getStackInSlot(slot).getItem() instanceof ItemTool){
-							if(blockInventory.getStackInSlot(3) == null){
-								blockInventory.setStackInSlot(3, playerInventory.getStackInSlot(slot));
+							if(secondairyInventory.getStackInSlot(3) == null){//3 is weapon slot
+								secondairyInventory.setStackInSlot(3, playerInventory.getStackInSlot(slot));
 								playerInventory.setStackInSlot(slot, null);
 							}else{
 								ItemStack a = playerInventory.getStackInSlot(slot);
-								ItemStack b = blockInventory.getStackInSlot(3);
+								ItemStack b = secondairyInventory.getStackInSlot(3);
 								
-								playerInventory.setStackInSlot(slot, b);
-								blockInventory.setStackInSlot(3, a);
+								playerInventory.removeStack(slot);
+								secondairyInventory.removeStack(3);
+								
+								if(playerInventory.setStackInNextAvailableSlot(b))//set tool to next available slot to occupy any spacing
+									secondairyInventory.setStackInSlot(3, a);
+								else{//switch out items
+									playerInventory.setStackInSlot(slot, b);
+									secondairyInventory.setStackInSlot(3, a);
+								}
+								
 							}
 						}
 					//TODO instanceof ItemArmor
-//					if(playerInventory.getStackInSlot(slot).getItem() instanceof ItemTool){
-//						if(blockInventory.getStackInSlot(3) == null){
-//							blockInventory.setStackInSlot(3, playerInventory.getStackInSlot(slot));
-//							playerInventory.setStackInSlot(slot, null);
-//						}
-//					}
+					//					if(playerInventory.getStackInSlot(slot).getItem() instanceof ItemTool){
+					//						if(blockInventory.getStackInSlot(3) == null){
+					//							blockInventory.setStackInSlot(3, playerInventory.getStackInSlot(slot));
+					//							playerInventory.setStackInSlot(slot, null);
+					//						}
+					//					}
 				}
 	}
 

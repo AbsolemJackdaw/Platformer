@@ -25,7 +25,7 @@ public class Images {
 
 	public static final int[] playerSprites = {
 		/*body (general)*/1,
-		/*idle*/1,4,1,
+		/*idle*/1,1,8,
 		/*falling/jump*/2,2,
 		/*running*/9,1,10,
 		/*weapon arms*/1,
@@ -36,7 +36,6 @@ public class Images {
 
 	
 	public BufferedImage menu = loadImage("/background/menu.png");
-	public BufferedImage log = loadImage("/blocks/log.png");
 
 	public Background menuBackGround = new Background("/background/menu.png", 2, false, 5);
 	
@@ -92,8 +91,6 @@ public class Images {
 
 			for (int i = 0; i < subImages; i++)
 				ret[i] = spritesheet.getSubimage(i * x, y, x, x);
-
-			System.out.println(s);
 
 			return ret;
 		} catch (final Exception e) {

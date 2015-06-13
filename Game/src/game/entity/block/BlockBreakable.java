@@ -10,6 +10,7 @@ import game.item.tool.ItemTool;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import base.main.music.Music;
 import base.tilemap.TileMap;
 
 public class BlockBreakable extends Block{
@@ -23,7 +24,7 @@ public class BlockBreakable extends Block{
 	public BlockBreakable(TileMap tm, World world, String uin) {
 		super(tm, world, uin);
 	}
-	
+
 	public BlockBreakable(TileMap tm, World world, String uin, int toolEffectiveness) {
 		this(tm, world, uin);
 		setEffectiveTool(toolEffectiveness);
@@ -33,18 +34,22 @@ public class BlockBreakable extends Block{
 		effectiveTool = tool;
 		return this;
 	}
-	
+
 	public int getEffectiveTool(){
 		return effectiveTool;
 	}
-	
+
 	private int defaultHealth;
+	
 	public BlockBreakable setHealth(int i){
 		health = i;
 		defaultHealth = i;
 		return this;
 	}
-	
+
+	public void resetHealth(){
+		health = defaultHealth;
+	}
 	
 	public int getHealth(){
 		return health;
@@ -91,10 +96,21 @@ public class BlockBreakable extends Block{
 		if(wep != null && effectiveTool == ((ItemTool)wep.getItem()).getEffectiveness())
 			wepDmg = ((ItemTool)wep.getItem()).getEffectiveDamage();
 
+		switch (getType()) {
+		case ROCK:
+			Music.play("hit_rock_" + (rand.nextInt(4)+1));
+			break;
+		case WOOD:
+			Music.play("hit_wood_" + (rand.nextInt(5)+1));
+			break;
+		default:
+			break;
+		}
 		health -= world.getPlayer().getAttackDamage() + wepDmg;
 		//TODO add check so blocks might not be broken without specific tool
 		//boolean check requiresTool ?
-		
+
+//		System.out.println(health);
 		if(health <= 0)
 			mine(p);
 

@@ -5,38 +5,55 @@ import game.item.ItemStack;
 import game.item.Items;
 
 public class Crafting {
-	
+
 	public static final int Sticks = 0;
 	public static final int CraftTable = 1;
 	public static final int Pickaxe = 2;
 	public static final int CampFire = 3;
 	public static final int Sword = 4;
+	public static final int Axe = 5;
+	public static final int Oven = 6;
+	public static final int Lantern = 7;
 
 	public static ItemStack[] getRecipe(int i){
 		ItemStack[] is = new ItemStack[10];
 
-		if(i == Sticks){
+		switch(i){
+		case Sticks:
 			is[0] = new ItemStack(Items.log, 1);
-		}else if(i == CraftTable){
+			break;
+		case CraftTable:
 			is[0] = new ItemStack(Items.stick, 12);
 			is[1] = new ItemStack(Items.log, 4);
-		}
-		else if(i == Pickaxe){
+			break;
+		case Pickaxe:
 			is[0] = new ItemStack(Items.stick, 2);
 			is[1] = new ItemStack(Items.rock, 6);
-		}
-		else if(i == CampFire){
+			break;
+		case CampFire:
 			is[0] = new ItemStack(Items.log, 5);
 			is[1] = new ItemStack(Items.rock, 12);
 			is[2] = new ItemStack(Items.stick, 4);
-		}
-		else if(i == Sword){
+			break;
+		case Sword:
 			is[0] = new ItemStack(Items.stick, 2);
 			is[1] = new ItemStack(Items.log, 1);
 			is[2] = new ItemStack(Items.rock, 8);
+			break;
+		case Axe:
+			is[0] = new ItemStack (Items.stick , 2);
+			is[1] = new ItemStack(Items.rock, 3);
+			break;
+		case Oven:
+			is[0] = new ItemStack (Items.rock , 20);
+			break;
+		case Lantern:
+			is[0] = new ItemStack(Items.ingot, 10);
+			break;
+			
 		}
-
 		return is;
+
 	}
 
 	public static ItemStack result(int i){
@@ -48,22 +65,28 @@ public class Crafting {
 		case Sticks:
 			st = new ItemStack(Items.stick, 2);
 			break;
-
 		case CraftTable:
 			st = new ItemStack(Items.craftTable, 1);
 			break;
 		case Pickaxe: 
 			st = new ItemStack(Items.pickaxe, 1);
 			break;
-			
 		case CampFire:
 			st = new ItemStack(Items.campfire, 1);
 			break;
-			
 		case Sword :
 			st = new ItemStack(Items.sword, 1);
 			break;
-			
+		case Axe :
+			st = new ItemStack(Items.axe, 1);
+			break;
+		case Oven:
+			st = new ItemStack(Items.oven, 1);
+			break;
+		case Lantern:
+			st = new ItemStack(Items.lantern, 1);
+			break;
+
 		}
 		return st;
 	}

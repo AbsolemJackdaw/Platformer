@@ -18,7 +18,7 @@ public class GuiHud extends Gui{
 	public GuiHud(World world, Player p) {
 		super(world, p);
 
-		img = Images.getSimpleImage("/player/hud.png");
+		img = Images.getSimpleImage("/gui/hud.png");
 	}
 
 	@Override

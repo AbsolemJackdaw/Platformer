@@ -13,7 +13,7 @@ import base.main.keyhandler.KeyHandler;
 
 public class GuiContainer extends Gui implements Container{
 
-	protected IInventory blockInventory;
+	protected IInventory secondairyInventory;
 	protected IInventory playerInventory;
 
 	protected static final int PLAYER = 0;
@@ -32,17 +32,17 @@ public class GuiContainer extends Gui implements Container{
 
 	public GuiContainer(IInventory blockInventory, Player p) {
 		super(p.getWorld(), p);
-		this.blockInventory = blockInventory;
+		this.secondairyInventory = blockInventory;
 		playerInventory = p;
 
 		slotSelected.x = getFirstSlotLocationX();
 		slotSelected.y = getFirstSlotLocationY();
 	}
-
+	
 	public GuiContainer(World world, Player p) {
 		super(world, p);
 
-		blockInventory = null;
+		secondairyInventory = null;
 		playerInventory = p;
 
 		slotSelected.x = getFirstSlotLocationX();
@@ -55,6 +55,7 @@ public class GuiContainer extends Gui implements Container{
 		g.setColor(Color.yellow);
 		g.draw(slotSelected);
 
+		//updating function. doesnt draw anyhting
 		slot_index = slotIndex[0]+ (slotIndex[1]*(rowsX()));
 	}
 
@@ -101,7 +102,7 @@ public class GuiContainer extends Gui implements Container{
 			if(slotIndex[1] > 0){
 				slotSelected.y -=getSlotSpacingY();
 				slotIndex[1]--;
-			}else if((slotIndex[1] == 0) && !isContainerInventory()){
+			}else if((slotIndex[1] == 0) && !isNotPlayerInventory()){
 				currentContainer = BLOCK;
 				slotSelected.y = getFirstSlotLocationY();
 				slotSelected.x = getFirstSlotLocationX();
@@ -113,7 +114,7 @@ public class GuiContainer extends Gui implements Container{
 			if(slotIndex[1] < (rowsY()-1)){
 				slotSelected.y +=getSlotSpacingY();
 				slotIndex[1]++;
-			}else if((slotIndex[1] == (rowsY()-1)) && isContainerInventory()){
+			}else if((slotIndex[1] == (rowsY()-1)) && isNotPlayerInventory()){
 				currentContainer = PLAYER;
 				slotSelected.y = getFirstSlotLocationY();
 				slotSelected.x = getFirstSlotLocationX();
@@ -127,23 +128,23 @@ public class GuiContainer extends Gui implements Container{
 
 	protected void containerItemSwappingLogic(){
 		//put stack from one inventory to another
-		if(blockInventory != null)
+		if(secondairyInventory != null)
 			if(KeyHandler.isValidationKeyPressed())
-				if(isContainerInventory() && blockInventory != null){
+				if(isNotPlayerInventory() && secondairyInventory != null){
 					System.out.println(slot_index);
-					if(blockInventory.getStackInSlot(slot_index) != null)
-						if(playerInventory.setStackInNextAvailableSlot(blockInventory.getStackInSlot(slot_index)))
-							blockInventory.setStackInSlot(slot_index, null);
+					if(secondairyInventory.getStackInSlot(slot_index) != null)
+						if(playerInventory.setStackInNextAvailableSlot(secondairyInventory.getStackInSlot(slot_index)))
+							secondairyInventory.setStackInSlot(slot_index, null);
 				}else{
 					int slot = slotIndex[0]+ (slotIndex[1]*(rowsX()));
 					System.out.println(slot);
 					if(playerInventory.getStackInSlot(slot) != null)
-						if(blockInventory.setStackInNextAvailableSlot(playerInventory.getStackInSlot(slot)))
+						if(secondairyInventory.setStackInNextAvailableSlot(playerInventory.getStackInSlot(slot)))
 							playerInventory.setStackInSlot(slot, null);
 				}
 	}
 
-	protected boolean isContainerInventory(){
+	protected boolean isNotPlayerInventory(){
 		return currentContainer == BLOCK;
 	}
 

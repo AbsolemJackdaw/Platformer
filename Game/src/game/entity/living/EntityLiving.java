@@ -8,7 +8,8 @@ import base.tilemap.TileMap;
 public class EntityLiving extends MapObject{
 
 	protected int health;
-
+	protected int maxHealth;
+	
 	public EntityLiving(TileMap tm, World world, String uin) {
 		super(tm, world, uin);
 
@@ -17,6 +18,7 @@ public class EntityLiving extends MapObject{
 
 	public EntityLiving setHealth(int health){
 		this.health = health;
+		maxHealth = health;
 		return this;
 	}
 

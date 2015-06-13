@@ -29,8 +29,6 @@ public class GuiCrafting extends GuiContainer {
 	}
 
 	private void buttonClicked(int id){
-		System.out.println("click click : " + id);
-
 		Crafting.craft(player, id);
 	}
 

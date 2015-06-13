@@ -6,10 +6,17 @@ import game.entity.living.player.Player;
 import game.item.ItemStack;
 
 import java.awt.Graphics2D;
+import java.util.Random;
 
 import base.tilemap.TileMap;
 
 public class Block extends MapObject{
+
+	private int type;
+	public final static int ROCK = 0;
+	public final static int WOOD = 1;
+	
+	public Random rand = new Random();
 
 	public Block(TileMap tm, World world, String uin) {
 		super(tm, world, uin);
@@ -78,12 +85,21 @@ public class Block extends MapObject{
 	public ItemStack getDrop(){
 		return null;
 	}
-	
+
 	public boolean isStackable(){
 		return true;
 	}
-	
+
 	public void interact(Player p, MapObject o){
-		
+
+	}
+
+	public MapObject setType(int type){
+		this.type = type;
+		return this;
+	}
+
+	public int getType(){
+		return type;
 	}
 }

@@ -17,6 +17,7 @@ public class XboxController {
 		} catch (LWJGLException e) {
 			e.printStackTrace();
 		}
+
 		Controllers.poll();
 
 		int index = 0;
@@ -36,7 +37,6 @@ public class XboxController {
 
 		try {
 			controller = Controllers.getController(index);
-
 		} catch (Exception e) {
 			System.out.println("No Controller detected");
 		}
@@ -59,6 +59,7 @@ public class XboxController {
 	public static boolean DOWN;
 
 	public static void update(){
+
 		controller.poll();
 
 		LEFT = controller.getPovX() == -1f;
@@ -66,10 +67,15 @@ public class XboxController {
 		UP = controller.getPovY() == -1f;
 		DOWN = controller.getPovY() == 1f;
 
-		KeyHandler.keySet(KeyEvent.VK_LEFT, LEFT);
-		KeyHandler.keySet(KeyEvent.VK_RIGHT, RIGHT);
-		KeyHandler.keySet(KeyEvent.VK_UP, UP);
-		KeyHandler.keySet(KeyEvent.VK_DOWN, DOWN);
+//		KeyHandler.keySet(KeyEvent.VK_LEFT, LEFT);
+//		KeyHandler.keySet(KeyEvent.VK_RIGHT, RIGHT);
+//		KeyHandler.keySet(KeyEvent.VK_UP, UP);
+//		KeyHandler.keySet(KeyEvent.VK_DOWN, DOWN);
+		
+		KeyHandler.keySet(KeyEvent.VK_Q, LEFT);
+		KeyHandler.keySet(KeyEvent.VK_D, RIGHT);
+		KeyHandler.keySet(KeyEvent.VK_Z, UP);
+		KeyHandler.keySet(KeyEvent.VK_S, DOWN);
 
 		if(controller.isButtonPressed(X)){
 			KeyHandler.keySet(KeyEvent.VK_R, true);
@@ -89,12 +95,18 @@ public class XboxController {
 			KeyHandler.keySet(KeyEvent.VK_ESCAPE, false);
 		}
 
+		if(controller.isButtonPressed(B)){
+			KeyHandler.keySet(KeyEvent.VK_N, true);
+		}else{
+			KeyHandler.keySet(KeyEvent.VK_N, false);
+		}
+
 		if(controller.isButtonPressed(BACK)){
 			KeyHandler.keySet(KeyEvent.VK_I, true);
 		}else{
 			KeyHandler.keySet(KeyEvent.VK_I, false);
 		}
-		
+
 		if(controller.isButtonPressed(LS) || controller.isButtonPressed(RS)){
 			KeyHandler.keySet(KeyEvent.VK_M, true);
 		}else{

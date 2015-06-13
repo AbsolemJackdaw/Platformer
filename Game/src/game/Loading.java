@@ -2,9 +2,11 @@ package game;
 
 import game.content.save.DataTag;
 import game.content.save.Save;
+import game.entity.Entity;
 import game.entity.block.BlockBreakable;
 import game.entity.block.BlockLog;
 import game.entity.block.Blocks;
+import game.entity.living.EntityLiving;
 
 import java.util.Random;
 
@@ -22,7 +24,11 @@ public class Loading {
 
 	public static String newMap(){
 
-		int i = new Random().nextInt(5)+1;
+		//int i = new Random().nextInt(5)+1;
+
+		//skip map x_1, so that map is used only in the very beginning
+		// 7+ 2 is max 9 maps, where map min is 2
+		int i = new Random().nextInt(7)+2; 
 		String s = "/maps/cave_rand_" + i + ".map";
 		System.out.println(s);
 		return s;
@@ -34,6 +40,9 @@ public class Loading {
 		World cw = (World)gsm.getGameState(gsm.getCurrentState());
 		Save.writeWorld(cw, index);
 		Save.writePlayerData(cw.getPlayer());
+
+		//get gametime to transfer to the new world and continue counting
+		int time = cw.GameTime;
 
 		//set a new world
 		gsm.setState(GameStateManager.GAME);
@@ -50,9 +59,14 @@ public class Loading {
 			generateRandomTree(nw);
 			generateRandomOre(nw, Blocks.IRON, 3);
 			generateRandomOre(nw, Blocks.ROCK, 10);
+			populateEntities(nw, Entity.PIG, 10);
+			//set gametime to continue counting
+			nw.GameTime = time;
 
 		}else{
 			nw.readFromSave(Save.getWorldData(index));
+			//set gametime to continue counting
+			nw.GameTime = time;
 		}
 
 		Save.writeRandomParts();
@@ -78,6 +92,9 @@ public class Loading {
 		Save.writeWorld(cw, index);
 		Save.writePlayerData(cw.getPlayer());
 
+		//get gametime to transfer to the new world and continue counting
+		int time = cw.GameTime;
+
 		//set a new world
 		gsm.setState(GameStateManager.GAME);
 
@@ -87,6 +104,9 @@ public class Loading {
 
 		nw.readFromSave(Save.getWorldData(index));
 
+		//set gametime to continue counting
+		nw.GameTime = time;
+		
 		for(int i = 0; i < nw.tileMap.getXRows(); i++)
 			for(int j = 0; j < nw.tileMap.getYRows(); j++){
 				if(nw.tileMap.getBlockID(i, j) == 6){
@@ -146,9 +166,29 @@ public class Loading {
 					}
 				}
 		}
-
 	}
 
+	private static void populateEntities(World world, String uin, int loops){
+
+		TileMap tm = world.tileMap;
+
+		for(int i = 0; i < loops; i++){
+			EntityLiving el = (EntityLiving) Entity.createEntityFromUIN(uin, tm, world);
+
+			int x = new Random().nextInt(tm.getXRows());
+			int y = new Random().nextInt(tm.getYRows());
+
+			if(y+1 < tm.getYRows())
+				if(world.tileMap.getBlockID(x, y) == 0){
+					if(world.tileMap.getBlockID(x, y+1) > 0){
+						el.setPosition(x*32 + 16, y*32 + 16);
+						world.listWithMapObjects.add(el);
+						System.out.println("added pig at " + x + " " + (y));
+
+					}
+				}
+		}
+	}
 
 	public static void writeRandomParts(DataTag tag){
 		tag.writeInt("worldIndex", Loading.index);

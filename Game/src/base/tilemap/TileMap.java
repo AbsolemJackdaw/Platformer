@@ -1,6 +1,8 @@
 package base.tilemap;
 
 
+import game.entity.living.player.Player;
+
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -48,15 +50,15 @@ public class TileMap {
 	private Tile[][] tiles;
 
 	// drawing
-	private int rowOffset;
-	private int colOffset;
-	private final int numRowsToDraw;
-	private final int numColsToDraw;
+//	private int rowOffset;
+//	private int colOffset;
+//	private final int numRowsToDraw;
+//	private final int numColsToDraw;
 
 	public TileMap(int tileSize) {
 		this.tileSize = tileSize;
-		numRowsToDraw = (GamePanel.HEIGHT / tileSize) + 2;
-		numColsToDraw = (GamePanel.WIDTH / tileSize) + 2;
+//		numRowsToDraw = (GamePanel.HEIGHT / tileSize) + 2;
+//		numColsToDraw = (GamePanel.WIDTH / tileSize) + 2;
 		tween = 0.05;
 	}
 
@@ -65,17 +67,32 @@ public class TileMap {
 		return map[y][x];
 	}
 
-	public void draw(Graphics2D g) {
+	public void draw(Graphics2D g, Player player) {
 
-		for (int row = rowOffset; row < (rowOffset + numRowsToDraw); row++) {
+		int Px = player.getScreenXpos()/32; //get row number
+		int Py = (player.getScreenYpos()/32);
 
-			if (row >= mapYRows)
-				break;
+		int arroundX = 16;
+		int arroundY = 10;
 
-			for (int col = colOffset; col < (colOffset + numColsToDraw); col++) {
+		int someX = Px-arroundX;
+		int someXMax = Px+arroundX;
+		
+		int someY = Py-arroundY;
+		int someYMax = Py+arroundY;
 
-				if (col >= mapXRows)
-					break;
+		for(int row = someY; row < someYMax; row ++){
+			for(int col = someX; col < someXMax; col ++){
+
+				if(row >= 0 && row < mapYRows)
+					;
+				else
+					continue;
+
+				if(col >= 0 && col < mapXRows)
+					;
+				else
+					continue;
 
 				if (map[row][col] == 0)
 					continue;
@@ -83,11 +100,36 @@ public class TileMap {
 				final int rc = map[row][col];
 				final int r = rc / numTilesAcross;
 				final int c = rc % numTilesAcross;
-//				System.out.println(r + " " + c + " " + numTilesAcross + " " + rc/numTilesAcross);
+
+				//TODO only draw a selection of images, not the entire map
 				g.drawImage(tiles[r][c].getImage(), (int) x + (col * tileSize),
 						(int) y + (row * tileSize), null);
 			}
 		}
+
+		//		for (int row = rowOffset; row < (rowOffset + numRowsToDraw); row++) {
+		//
+		//			if (row >= mapYRows)
+		//				break;
+		//
+		//			for (int col = colOffset; col < (colOffset + numColsToDraw); col++) {
+		//
+		//				if (col >= mapXRows)
+		//					break;
+		//
+		//				if (map[row][col] == 0)
+		//					continue;
+		//
+		//				final int rc = map[row][col];
+		//				final int r = rc / numTilesAcross;
+		//				final int c = rc % numTilesAcross;
+		//				//				System.out.println(r + " " + c + " " + numTilesAcross + " " + rc/numTilesAcross);
+		//
+		//				//TODO only draw a selection of images, not the entire map
+		//				g.drawImage(tiles[r][c].getImage(), (int) x + (col * tileSize),
+		//						(int) y + (row * tileSize), null);
+		//			}
+		//		}
 	}
 
 	private void fixBounds() {
@@ -121,10 +163,14 @@ public class TileMap {
 
 	/**x and y are the rows of the map. returns either 0 or 1, for solid or ghost blocks*/
 	public int getType(int y, int x) {
-		int rc = map[y][x];
-		int r = rc / numTilesAcross;
-		int c = rc % numTilesAcross;
-		return tiles[r][c].getType();
+
+		if(x >=0 && y >=0 && x < mapXRows && y < mapYRows){
+			int rc = map[y][x];
+			int r = rc / numTilesAcross;
+			int c = rc % numTilesAcross;
+			return tiles[r][c].getType();
+		}
+		return -1;
 	}
 
 	public int getWidth() {
@@ -140,7 +186,7 @@ public class TileMap {
 	}
 
 	public boolean isAir(int x, int y) {
-	
+
 		if(x >= mapXRows || y >= mapYRows || x < 0 || y < 0){
 			System.out.println("coords " + x +" " + y + " did not exist");
 			return false;
@@ -148,7 +194,7 @@ public class TileMap {
 
 		if(map[y][x] == 0)
 			return true;	
-		
+
 		return false;
 	}
 
@@ -222,8 +268,8 @@ public class TileMap {
 
 		fixBounds();
 
-		colOffset = (int) -this.x / tileSize;
-		rowOffset = (int) -this.y / tileSize;
+//		colOffset = (int) -this.x / tileSize;
+//		rowOffset = (int) -this.y / tileSize;
 
 	}
 

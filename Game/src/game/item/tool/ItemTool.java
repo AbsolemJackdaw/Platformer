@@ -1,6 +1,10 @@
 package game.item.tool;
 
+import base.tilemap.TileMap;
+import game.World;
+import game.entity.living.player.Player;
 import game.item.Item;
+import game.item.ItemStack;
 
 public class ItemTool extends Item {
 
@@ -46,4 +50,18 @@ public class ItemTool extends Item {
 		return this;
 	}
 
+	@Override
+	public void useItem(Item item, TileMap map, World world, Player player,int key) {
+
+		ItemStack invCopy = player.getInventory().getStackInSlot(key);
+		ItemStack equippedWeapon = player.invArmor.getWeapon();
+
+		ItemStack newInvItem = new ItemStack(equippedWeapon.getItem(), equippedWeapon.stackSize);
+		ItemStack newWeapon = new ItemStack(invCopy.getItem(), invCopy.stackSize);
+
+		player.invArmor.setWeapon(newWeapon);
+		player.getInventory().setStackInSlot(key, null);
+		player.getInventory().setStackInSlot(key, newInvItem);
+	
+	}
 }

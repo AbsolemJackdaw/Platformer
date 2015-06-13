@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import base.main.GamePanel;
 import base.main.keyhandler.KeyHandler;
+import base.main.keyhandler.XboxController;
 
 public class Gui {
 
@@ -30,6 +31,9 @@ public class Gui {
 
 	public void handleGuiKeyInput() {
 		if(KeyHandler.isPressed(KeyHandler.ESCAPE)){
+			world.displayGui(null);
+		}
+		if(KeyHandler.isPressed(KeyHandler.ESCAPE2) && XboxController.controller != null){
 			world.displayGui(null);
 		}
 	}

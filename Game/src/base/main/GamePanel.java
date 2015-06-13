@@ -26,8 +26,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	// game thread
 	private Thread thread;
 	private boolean running;
-	private final int FPS = 60;
-	private final long targetTime = 1000 / FPS;
+	//	private final int FPS = 60;
+	//	private final long targetTime = 1000 / FPS;
+
+	long lastLoopTime = System.nanoTime();
+	final int TARGET_FPS = 60;
+	final long OPTIMAL_TIME = 1000000000 / TARGET_FPS; 
+	long lastFpsTime;
+	long fps;
 
 	// image
 	private BufferedImage image;
@@ -46,7 +52,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		setPreferredSize(new Dimension(SCALEDX, SCALEDY));
 		setFocusable(true);
 		requestFocus();
-		
+
 	}
 
 	@Override
@@ -77,7 +83,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		running = true;
 
 		gsm = new GameStateManager();
-
 	}
 
 	@Override
@@ -106,21 +111,56 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		// game loop
 		while (running) {
 
-			start = System.nanoTime();
+			long now = System.nanoTime();
+			long updateLength = now - lastLoopTime;
+			lastLoopTime = now;
+			double delta = updateLength / ((double)OPTIMAL_TIME);
+
+			// update the frame counter
+			lastFpsTime += updateLength;
+			fps++;
+
+			// update our FPS counter if a second has passed since
+			// we last recorded
+			if (lastFpsTime >= 1000000000)
+			{
+				System.out.println("(FPS: "+fps+")");
+				lastFpsTime = 0;
+				fps = 0;
+			}
+
+			//			start = System.nanoTime();
 
 			update();
 			draw();
 			drawToScreen();
 
-			elapsed = System.nanoTime() - start;
+			//			elapsed = System.nanoTime() - start;
+			//
+			//			wait = targetTime - (elapsed / 1000000);
+			//			if (wait < 0)
+			//				wait = 5;
+			//
+			//			try {
+			//				Thread.sleep(wait);
+			//			} catch (final Exception e) {
+			//				e.printStackTrace();
+			//			}
 
-			wait = targetTime - (elapsed / 1000000);
-			if (wait < 0)
-				wait = 5;
 
-			try {
+			// we want each frame to take 10 milliseconds, to do this
+			// we've recorded when we started the frame. We add 10 milliseconds
+			// to this and then factor in the current time to give 
+			// us our final value to wait for
+			// remember this is in ms, whereas our lastLoopTime etc. vars are in ns.
+			wait = (lastLoopTime-System.nanoTime() + OPTIMAL_TIME)/1000000;
+			
+			if( wait < 0)
+				wait =5;
+				
+			try{
 				Thread.sleep(wait);
-			} catch (final Exception e) {
+			}catch (final Exception e) {
 				e.printStackTrace();
 			}
 
